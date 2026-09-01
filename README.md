@@ -17,9 +17,8 @@ asks for a review and a re-order.
 
 ## Before this is fully live
 
-- [ ] **Prep videos** — drop `hot.mp4` and `iced.mp4` into `assets/video/`
-      (see the README in that folder). Until then each card shows a branded
-      "Video coming soon" panel rather than a broken player.
+- [x] **Prep videos** — `hot.mp4` and `iced.mp4` are in `assets/video/`, remuxed
+      for faststart so they begin playing before the whole file downloads.
 - [ ] **Review URL** — set `REVIEW_URL` in `index.html` to the review form of
       whichever platform issues the code. **The 15% is not automatic yet**: it
       needs a review app (Judge.me / Loox / Okendo) connected to a Shopify

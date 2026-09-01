@@ -1,26 +1,38 @@
 # Prep videos
 
-Drop the two clips here with these exact filenames:
+| File | Where it appears | Source name |
+| --- | --- | --- |
+| `hot.mp4` | Left card — "Hot · The Morning Ritual" | `Vertical_Caliente (2).mp4` |
+| `iced.mp4` | Right card — "Iced · The Afternoon Reset" | `Vertical_Frío (2).mp4` |
 
-| File | Section |
-| --- | --- |
-| `hot.mp4` | Left card — "Hot · The Morning Ritual" |
-| `iced.mp4` | Right card — "Iced · The Afternoon Reset" |
+Renamed from the uploaded filenames because spaces and accented characters
+have to be percent-encoded in URLs and break inconsistently across browsers.
 
-Until they exist, each card shows a branded "Video coming soon" panel instead
-of a broken player. No code change is needed when you add them.
+## These files are "faststart"
+
+The `moov` atom (the index a player needs before it can render a single frame)
+was at the **end** of both uploads. That forces a browser to download all ~23 MB
+before playback begins — on cellular, a blank player for 30+ seconds, which is
+exactly how people arrive here after scanning a business card.
+
+Both files were remuxed so `moov` sits before `mdat`. This is lossless: the
+media payload is byte-for-byte identical and the file size is unchanged, only
+the index moved and the chunk offsets were rebased.
+
+**If you re-export these videos, re-apply it** — most editors write `moov` last
+by default:
+
+```sh
+ffmpeg -i input.mp4 -c copy -movflags +faststart output.mp4
+```
 
 ## Format
 
-- **Codec:** H.264 video + AAC audio in an `.mp4` container (plays everywhere,
-  including iOS Safari).
-- **Aspect ratio:** 9:16 vertical — the frames are built for it, so the same
-  cut used for Reels/TikTok drops straight in.
-- **Size:** keep each under ~10 MB. These are served from the repo, and a heavy
-  file is a slow page on mobile data, which is how most people arrive here
-  (they scanned a business card).
-- **Audio:** the steps are written beside each video, so the clips work fine
-  muted. Don't rely on voiceover to carry the instructions.
-
-If a clip has to exceed ~25 MB, host it on a CDN or Vimeo instead and swap the
-`<source src="...">` in `index.html` rather than committing it.
+- **Codec:** H.264 + AAC in `.mp4` — plays everywhere including iOS Safari.
+- **Aspect ratio:** 9:16 vertical. The frames are built for it, so the same cut
+  used for Reels/TikTok drops straight in.
+- **Size:** ~23 MB each. They stream fine now, but re-encoding to 5–8 MB would
+  noticeably improve start time on mobile data. Worth doing when there's an
+  editor to hand.
+- **Audio:** the steps are written beside each video, so the clips work muted.
+  Don't rely on voiceover to carry the instructions.
