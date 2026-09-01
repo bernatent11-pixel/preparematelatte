@@ -236,6 +236,44 @@
       -webkit-text-fill-color: transparent; color: transparent;
     }
 
+    /* yerba mate section: copy + benefits + table on the left, product right */
+    .mate-split {
+      display: grid; grid-template-columns: 1.12fr 0.88fr;
+      gap: clamp(20px, 3vw, 46px); align-items: center; text-align: left;
+    }
+    .mate-copy .act-title { font-size: clamp(28px, 4.4vw, 44px); }
+    .mate-copy .edu-copy { margin-top: 22px; }
+    .mini-head {
+      font-family: var(--font); font-weight: 900; text-transform: uppercase;
+      font-size: clamp(13px, 1.7vw, 16px); letter-spacing: 2.4px;
+      color: var(--gold-1); margin-top: 32px;
+    }
+    .benefits {
+      list-style: none; margin-top: 16px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 11px 20px;
+    }
+    .benefits li {
+      position: relative; padding-left: 26px;
+      font-size: clamp(12.5px, 1.5vw, 14px); color: var(--cream); line-height: 1.45;
+      transition: transform .25s cubic-bezier(.2,.7,.3,1);
+    }
+    .benefits li:hover { transform: translateX(4px); }
+    .benefits li::before {
+      content: ""; position: absolute; left: 0; top: 3px; width: 15px; height: 18px;
+      background: url("assets/hand-gold.png") no-repeat center / contain;
+      filter: drop-shadow(0 0 6px rgba(236,201,111,0.35));
+    }
+    /* the leaf-vs-the-rest table sits in a narrower column than the product one */
+    .cmp-wrap.tight { margin-top: 24px; }
+    .cmp-wrap.tight table.cmp { font-size: 12px; }
+    .cmp-wrap.tight .cmp td.feat { width: 30%; }
+    .cmp-wrap.tight .cmp thead th { font-size: 9.5px; }
+    .claims-note {
+      margin-top: 14px; font-size: 10px; line-height: 1.55;
+      color: rgba(247,239,224,0.42);
+    }
+
     .ing-list { display: grid; gap: 18px; margin-top: 26px; text-align: left; }
     .ing-row { display: grid; gap: 3px; transition: transform .3s cubic-bezier(.2,.7,.3,1); }
     .ing-row:hover { transform: translateX(8px); }
@@ -445,6 +483,10 @@
     @media (max-width: 860px) {
       .vids { grid-template-columns: 1fr; }
       .vid-media { aspect-ratio: 4 / 5; }
+      /* stack the yerba section, product shot first */
+      .mate-split { grid-template-columns: 1fr; gap: 28px; }
+      .mate-split .side-media { order: -1; }
+      .mate-split .side-img { width: min(100%, 420px); margin: 0 auto; }
     }
     @media (max-width: 640px) {
       nav .logo .logo-img { height: 62px; }
@@ -602,16 +644,100 @@
   </section>
 
   <!-- ============ 3. WHAT YERBA MATE ACTUALLY IS ============ -->
-  <section class="block">
-    <div class="wrapc">
-      <h2 class="act-title fx">What Is<br/><span class="gold">Yerba Mate?</span></h2>
-      <p class="tagline-sub fx">300 Years Of Daily Ritual</p>
+  <section class="block" id="yerba">
+    <div class="wrapw">
+      <div class="mate-split">
+        <div class="mate-copy fx">
+          <h2 class="act-title">What Is<br/><span class="gold">Yerba Mate?</span></h2>
+          <p class="tagline-sub">300 Years Of Daily Ritual</p>
 
-      <div class="glass fx" style="margin-top:26px">
-        <div class="edu-copy">
-          <p>Yerba mate is the leaf of a South American holly tree, dried and steeped for centuries across Argentina, Uruguay, Paraguay and southern Brazil. It has never really been a health trend there — <b>it is simply how people start the day, and how they share one.</b></p>
-          <p class="pull">It isn't tea. It isn't coffee. It behaves like neither.</p>
-          <p>Mate carries caffeine for the lift, <b>theobromine</b> to widen and soften that lift, and naturally occurring antioxidants. Coffee gives you the first of those on its own — which is exactly why it spikes hard and drops just as hard. Mate climbs gently, holds for hours, and lets you back down without the crash.</p>
+          <div class="edu-copy">
+            <p>Yerba mate is the leaf of a South American holly tree, dried and steeped for centuries across Argentina, Uruguay, Paraguay and southern Brazil. It has never really been a health trend there — <b>it is simply how people start the day, and how they share one.</b></p>
+            <p class="pull">It isn't tea. It isn't coffee. It behaves like neither.</p>
+            <p>Mate carries caffeine for the lift, <b>theobromine</b> to widen and soften that lift, and naturally occurring antioxidants. Coffee gives you the first of those on its own — which is exactly why it spikes hard and drops just as hard. Mate climbs gently, holds for hours, and lets you back down without the crash.</p>
+          </div>
+
+          <h3 class="mini-head">Benefits Of Yerba Mate Tea</h3>
+          <ul class="benefits">
+            <li>Rich in antioxidants and nutrients</li>
+            <li>Enhances energy and focus</li>
+            <li>Aids digestion</li>
+            <li>Supports cardiovascular health</li>
+            <li>May help with weight loss</li>
+            <li>Enhances physical performance</li>
+            <li>Boosts the immune system</li>
+            <li>Mood enhancer</li>
+          </ul>
+
+          <!-- the leaf itself vs the other three, before the product-level
+               comparison in the next section -->
+          <div class="cmp-wrap tight">
+            <table class="cmp">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th class="mi-col">Yerba Mate</th>
+                  <th>Coffee</th>
+                  <th>Matcha</th>
+                  <th>Mushroom<br/>Coffee</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="feat"><b>Caffeine</b><span>Per cup</span></td>
+                  <td class="mi"><span class="mark y">~80mg</span></td>
+                  <td><span class="mark v">~95mg</span></td>
+                  <td><span class="mark v">~70mg</span></td>
+                  <td><span class="mark v">Varies</span><span class="d">Coffee-based</span></td>
+                </tr>
+                <tr>
+                  <td class="feat"><b>Energy curve</b><span>How the lift behaves</span></td>
+                  <td class="mi"><span class="mark y">✓</span><span class="d">Gradual, 4–6 hrs</span></td>
+                  <td><span class="mark n">✗</span><span class="d">Spike then crash</span></td>
+                  <td><span class="mark y">✓</span><span class="d">Smooth</span></td>
+                  <td><span class="mark v">Varies</span><span class="d">Follows the base</span></td>
+                </tr>
+                <tr>
+                  <td class="feat"><b>Theobromine</b><span>Widens and softens the lift</span></td>
+                  <td class="mi"><span class="mark y">✓</span><span class="d">Naturally present</span></td>
+                  <td><span class="mark n">✗</span><span class="d">Trace only</span></td>
+                  <td><span class="mark n">✗</span></td>
+                  <td><span class="mark n">✗</span></td>
+                </tr>
+                <tr>
+                  <td class="feat"><b>Antioxidants</b><span>Polyphenols &amp; saponins</span></td>
+                  <td class="mi"><span class="mark y">✓</span><span class="d">High</span></td>
+                  <td><span class="mark y">✓</span><span class="d">Moderate</span></td>
+                  <td><span class="mark y">✓</span><span class="d">Catechins</span></td>
+                  <td><span class="mark v">Varies</span></td>
+                </tr>
+                <tr>
+                  <td class="feat"><b>Vitamins &amp; minerals</b><span>Beyond the caffeine</span></td>
+                  <td class="mi"><span class="mark y">✓</span><span class="d">B vitamins, magnesium, potassium</span></td>
+                  <td><span class="mark n">✗</span><span class="d">Minimal</span></td>
+                  <td><span class="mark y">✓</span><span class="d">Some</span></td>
+                  <td><span class="mark n">✗</span><span class="d">Minimal</span></td>
+                </tr>
+                <tr>
+                  <td class="feat"><b>Jitters</b><span>Typical experience</span></td>
+                  <td class="mi"><span class="mark y">Rare</span></td>
+                  <td><span class="mark n">Common</span></td>
+                  <td><span class="mark y">Rare</span></td>
+                  <td><span class="mark v">Depends</span><span class="d">On the base</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="claims-note">
+            Caffeine figures are typical ranges and vary by leaf, roast and preparation.
+            These statements have not been evaluated by the Food and Drug Administration.
+            This product is not intended to diagnose, treat, cure or prevent any disease.
+          </p>
+        </div>
+
+        <div class="side-media fx">
+          <img class="side-img" src="assets/yerba-bag.png" alt="Milonga loose leaf yerba mate pouring from the bag" />
         </div>
       </div>
     </div>
