@@ -1,40 +1,55 @@
 # preparematelatte.milonga.life
 
-The landing page behind the QR code on Milonga business cards.
+The landing page behind the QR code on Milonga business cards. Audience is
+existing customers: the page teaches them to get more out of the product, then
+asks for a review and a re-order.
 
-```
-https://preparematelatte.milonga.life
-```
+## Sections, in order
 
-Currently a branded holding page ("Something's brewing") so a scan never lands
-on a 404. Replace `index.html` when the real page is designed.
+1. **Hero** — "The Original Mate Latte" / "Energy That Thinks" (same as the sales page)
+2. **Two Ways To Make It** — hot (left) and iced (right), each with numbered steps
+3. **What Is Yerba Mate?** — the leaf, the ritual, why it isn't tea or coffee
+4. **Why Upgrade To The Mate Latte?** — comparison vs matcha, coffee, mushroom coffee
+5. **Three Main Ingredients** — how Milonga innovates: Lion's Mane + L-theanine
+6. **Leave A Review → 15% off**
+7. **Elevate Your Morning Ritual** + **Re-Order** (one-time / Subscribe & Save)
+8. **FAQ** — same answers as the sales page, so nothing contradicts
 
-## Why this is its own repo
+## Before this is fully live
 
-GitHub Pages serves **one custom domain per repository**. The main
-`bernatent11-pixel/Github` repo already claims `matelatte.milonga.life` for the
-mate latte sales page. Pointing that repo here would un-serve that domain and
-404 a live sales page — which has already happened once and had to be reverted.
-Keeping this separate means the two pages can never knock each other offline.
+- [ ] **Prep videos** — drop `hot.mp4` and `iced.mp4` into `assets/video/`
+      (see the README in that folder). Until then each card shows a branded
+      "Video coming soon" panel rather than a broken player.
+- [ ] **Review URL** — set `REVIEW_URL` in `index.html` to the review form of
+      whichever platform issues the code. **The 15% is not automatic yet**: it
+      needs a review app (Judge.me / Loox / Okendo) connected to a Shopify
+      automatic discount. Right now the button falls back to the contact page.
+- [ ] **Storefront token** — set `STOREFRONT_TOKEN` in `index.html` so
+      Subscribe & Save reliably creates a subscription. Without it the buttons
+      fall back to `/cart/add`, which is reliable for one-time purchases and
+      best-effort for subscriptions. Same situation as the sales page.
 
-## How it deploys
+## Design system
 
-Push to `main` → the workflow in `.github/workflows/deploy.yml` publishes the
-repo root to Pages. Pages is enabled by the workflow itself, and the workflow
-**fails the build** if `CNAME` is missing or doesn't match the expected
-hostname — the exact failure that silently 404s a custom domain.
+Copied from the sales page so the two feel like one brand: gold
+`#ecc96f → #d6ab50 → #b98e38`, forest `#1b5130 / #2f7a45`, cream `#f7efe0`,
+dark green radial backdrop, self-hosted Gotham (Black / Bold / Regular), gold
+logo pinned top-centre that shrinks on scroll.
 
-## DNS
+## Kept in sync by hand
 
-In **GoDaddy**, under `milonga.life`:
+Prices, Shopify variant IDs, the Appstle selling plan, the comparison table and
+the FAQ answers are **duplicated** from the sales page in the other repo. If any
+of those change there, change them here too — nothing enforces it automatically.
 
-| Type | Host | Points to |
-| --- | --- | --- |
-| `CNAME` | `preparematelatte` | `bernatent11-pixel.github.io` |
+Analytics use the same GA4 and Meta Pixel IDs as the sales page, so scans from
+the card are attributed in one funnel.
 
-The apex `milonga.life` points at Shopify and is unrelated to this repo.
+## Hosting
 
-## Don't break the QR code
+GitHub Pages serves `main` at the root. The `CNAME` file claims the domain —
+never edit or delete it, the URL is printed on business cards. DNS is a `CNAME`
+record in GoDaddy: host `preparematelatte` → `bernatent11-pixel.github.io`.
 
-The domain is printed on physical business cards. Never change the `CNAME`
-file, and keep the landing page at the domain root (`index.html`).
+This is a separate repo from the sales page because GitHub Pages serves one
+custom domain per repository.

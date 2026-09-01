@@ -3,104 +3,1066 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Milonga</title>
-  <meta name="description" content="Milonga — something's brewing." />
-  <meta name="robots" content="noindex" />
 
-  <meta property="og:title" content="Milonga" />
-  <meta property="og:description" content="Something's brewing." />
+  <!-- ============================================================
+       ANALYTICS — GA4 + Meta Pixel, same IDs as the sales page so the
+       card scan → re-order funnel is attributed in one place.
+       ============================================================ -->
+  <script>
+    window.MILONGA_ANALYTICS = {
+      GA4_MEASUREMENT_ID: "G-M18RQG49P9",
+      META_PIXEL_ID:      "1200071501228566"
+    };
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    (function (cfg) {
+      var g = document.createElement('script'); g.async = true;
+      g.src = 'https://www.googletagmanager.com/gtag/js?id=' + cfg.GA4_MEASUREMENT_ID;
+      document.head.appendChild(g);
+      gtag('js', new Date());
+      gtag('config', cfg.GA4_MEASUREMENT_ID);
+      fbq('init', cfg.META_PIXEL_ID);
+      fbq('track', 'PageView');
+    })(window.MILONGA_ANALYTICS);
+  </script>
+
+  <title>Milonga, The Original Mate Latte | How To Prepare It</title>
+  <meta name="description" content="How to prepare the Original Mate Latte, hot or iced. What yerba mate is, why it beats coffee, and the Lion's Mane and L-theanine that make it Milonga." />
+
+  <meta property="og:title" content="Milonga, The Original Mate Latte" />
+  <meta property="og:description" content="Two ways to make it. What yerba mate actually is, and why it beats coffee." />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/poster.jpg" />
 
+  <link rel="preload" href="assets/fonts/Gotham-Black.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/Gotham-Bold.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/Gotham-Regular.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
 
-  <!--
-    QR / business-card destination for preparematelatte.milonga.life.
-    This is a holding page only — the real landing page has not been designed
-    yet. Replace everything inside <body> (and the <title>/meta above) when the
-    design lands, keeping it at the domain root. Do NOT change or delete the
-    CNAME file: this domain is printed on business cards.
-  -->
   <style>
+    /* ---- GOTHAM (same self-hosted faces as the sales page) ---- */
+    @font-face {
+      font-family: "Gotham"; font-weight: 900; font-style: normal; font-display: swap;
+      src: url("assets/fonts/Gotham-Black.woff2") format("woff2");
+    }
+    @font-face {
+      font-family: "Gotham"; font-weight: 700; font-style: normal; font-display: swap;
+      src: url("assets/fonts/Gotham-Bold.woff2") format("woff2");
+    }
+    @font-face {
+      font-family: "Gotham"; font-weight: 400; font-style: normal; font-display: swap;
+      src: url("assets/fonts/Gotham-Regular.woff2") format("woff2");
+    }
+
     :root {
       --gold-1:   #ecc96f;
       --gold-2:   #d6ab50;
       --gold-3:   #b98e38;
       --cream:    #f7efe0;
+      --leaf:     #8cc63f;
       --forest-1: #2f7a45;
       --forest-2: #1b5130;
       --forest-3: #0e3a20;
-      --ink:      #123320;
+      --abyss:    #020805;
+      --mist:     rgba(247,239,224,0.72);
+      --font:     "Gotham", "Montserrat", system-ui, sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      min-height: 100svh;
-      display: grid;
-      place-items: center;
-      padding: 32px;
-      font-family: "Inter", system-ui, sans-serif;
-      color: var(--forest-3);
-      background: radial-gradient(120% 90% at 50% 0%, var(--gold-1), var(--gold-2) 55%, var(--gold-3) 100%);
+      font-family: var(--font);
+      background: var(--abyss);
+      color: var(--cream);
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    h1,h2,h3 { font-family: var(--font); font-weight: 900; line-height: 1.08; }
+    a { color: inherit; }
+
+    /* ================= BACKDROP ================= */
+    .bg {
+      position: fixed; inset: 0; z-index: -2;
+      background: radial-gradient(120% 88% at 50% 0%, #12572f 0%, #0b3c22 48%, #052816 100%);
+    }
+    .bg-tint {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background:
+        radial-gradient(80% 50% at 50% 0%, rgba(236,201,111,0.10), transparent 60%),
+        linear-gradient(180deg, transparent 60%, rgba(2,14,8,0.5));
+    }
+    .grain {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .05; mix-blend-mode: overlay;
+      background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.7) 1px, transparent 1.4px);
+      background-size: 5px 5px;
     }
 
-    /* paper-cut texture, same as the main site */
-    body::before {
-      content: "";
-      position: fixed; inset: 0;
-      background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.06) 1px, transparent 1.4px);
-      background-size: 14px 14px;
-      pointer-events: none;
+    /* ================= NAV ================= */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+      display: flex; justify-content: center; padding: 8px 16px;
+    }
+    .logo { display: flex; align-items: center; }
+    nav .logo .logo-img {
+      height: 96px; width: auto; display: block;
+      filter: drop-shadow(0 2px 12px rgba(2,8,5,0.85)) drop-shadow(0 0 22px rgba(236,201,111,0.25));
+      transition: height .4s cubic-bezier(.2,.7,.3,1);
+    }
+    nav.scrolled .logo .logo-img { height: 50px; }
+    .logo .word {
+      font-family: var(--font); font-weight: 900; font-size: 16px;
+      letter-spacing: 3px; color: var(--gold-1); margin-left: 10px;
     }
 
-    main { position: relative; text-align: center; }
+    /* ================= LAYOUT ================= */
+    .wrapc { width: min(760px, 100% - 40px); margin: 0 auto; text-align: center; position: relative; z-index: 1; }
+    .wrapw { width: min(1120px, 100% - 40px); margin: 0 auto; position: relative; z-index: 1; }
 
-    .logo {
-      display: inline-flex; align-items: center; gap: 12px;
-      font-family: "Fredoka", system-ui, sans-serif; font-weight: 700;
-      font-size: clamp(34px, 9vw, 54px); letter-spacing: .5px;
-      color: var(--forest-2);
-    }
-    .logo .mark { width: 1em; height: 1em; }
+    .fx { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); }
+    .fx.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .fx { opacity: 1 !important; transform: none !important; transition: none; } }
 
-    .tag {
-      margin-top: 18px;
-      font-family: "Fredoka", system-ui, sans-serif; font-weight: 600;
-      font-size: clamp(15px, 3.6vw, 18px);
-      color: var(--forest-3);
+    .act-title {
+      font-size: clamp(30px, 5.4vw, 52px); color: var(--cream);
+      letter-spacing: .5px; line-height: 1.1; text-transform: uppercase;
+      text-shadow: 0 4px 40px rgba(2,8,5,0.85);
+    }
+    .act-title .gold { color: var(--gold-1); }
+    .act-title.sm { font-size: clamp(23px, 3.2vw, 38px); }
+    .tagline-sub {
+      font-family: var(--font); font-weight: 700; font-size: clamp(11px, 1.4vw, 15px);
+      letter-spacing: 5px; text-transform: uppercase; color: var(--gold-2);
+      margin-top: 12px; text-shadow: 0 2px 20px rgba(2,8,5,0.9);
     }
 
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 9px;
-      margin-top: 28px;
-      font-family: "Fredoka", system-ui, sans-serif; font-weight: 600;
-      font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
-      color: var(--forest-3);
-      background: rgba(255,255,255,0.35);
-      border: 1px solid rgba(18,51,32,0.18);
-      border-radius: 100px; padding: 7px 16px;
+    .hero { padding: 148px 0 34px; }
+    .block { padding: 60px 0; }
+
+    /* ================= PREP VIDEOS ================= */
+    .vids {
+      display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2.4vw, 28px);
+      margin-top: 34px;
     }
-    .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--forest-2); animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
-    @media (prefers-reduced-motion: reduce) { .eyebrow .dot { animation: none; } }
+    .vid {
+      background: rgba(2,8,5,0.68); backdrop-filter: blur(10px);
+      border: 1px solid rgba(236,201,111,0.18); border-radius: 22px;
+      padding: 18px 18px 20px; text-align: left;
+      display: flex; flex-direction: column;
+      transition: border-color .35s ease, box-shadow .35s ease, transform .35s cubic-bezier(.2,.7,.3,1);
+    }
+    .vid:hover {
+      transform: translateY(-4px); border-color: rgba(236,201,111,0.45);
+      box-shadow: 0 18px 44px rgba(2,8,5,0.55), 0 0 26px rgba(236,201,111,0.14);
+    }
+    .vid-head { display: flex; align-items: center; gap: 11px; margin-bottom: 14px; }
+    .vid-head svg { width: 34px; height: 34px; flex: none; filter: drop-shadow(0 0 10px rgba(236,201,111,0.25)); }
+    .vid-name {
+      font-family: var(--font); font-weight: 900; text-transform: uppercase;
+      font-size: clamp(17px, 2.2vw, 23px); letter-spacing: 1px; color: var(--gold-1);
+    }
+    .vid-name span { display: block; font-weight: 700; font-size: 10px; letter-spacing: 2.4px; color: var(--mist); margin-top: 2px; }
+
+    /* 9:16 vertical frame — matches how these clips get shot for social */
+    .vid-media {
+      position: relative; width: 100%; aspect-ratio: 9 / 16;
+      border-radius: 16px; overflow: hidden; background: rgba(2,8,5,0.7);
+      border: 1px solid rgba(236,201,111,0.14);
+    }
+    .vid-media video { width: 100%; height: 100%; object-fit: cover; display: block; background: #041009; }
+    /* Shown only if the video file is missing, so the page never looks broken
+       before the real clips are uploaded. JS flips this on a load error. */
+    .vid-fallback {
+      position: absolute; inset: 0; display: none; place-items: center; text-align: center;
+      padding: 24px; background: radial-gradient(circle at 50% 35%, rgba(236,201,111,0.10), transparent 65%);
+    }
+    .vid-media.missing .vid-fallback { display: grid; }
+    .vid-media.missing video { display: none; }
+    .vid-fallback .vf-in { display: grid; gap: 10px; justify-items: center; }
+    .vid-fallback .vf-ring {
+      width: 62px; height: 62px; border-radius: 50%;
+      border: 2px solid rgba(236,201,111,0.5); display: grid; place-items: center;
+      box-shadow: 0 0 24px rgba(236,201,111,0.18);
+    }
+    .vid-fallback .vf-ring::after {
+      content: ""; width: 0; height: 0; margin-left: 4px;
+      border-left: 17px solid var(--gold-1);
+      border-top: 11px solid transparent; border-bottom: 11px solid transparent;
+    }
+    .vid-fallback .vf-txt {
+      font-family: var(--font); font-weight: 700; font-size: 10.5px;
+      letter-spacing: 2.4px; text-transform: uppercase; color: var(--mist);
+    }
+
+    .vid-steps { list-style: none; counter-reset: s; margin-top: 16px; display: grid; gap: 10px; }
+    .vid-steps li {
+      counter-increment: s; position: relative; padding-left: 34px;
+      font-size: clamp(13px, 1.6vw, 14.5px); color: var(--cream); line-height: 1.5;
+    }
+    .vid-steps li::before {
+      content: counter(s); position: absolute; left: 0; top: 1px;
+      width: 23px; height: 23px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-1), var(--gold-2)); color: var(--forest-3);
+      font-family: var(--font); font-weight: 900; font-size: 11.5px;
+      display: grid; place-items: center;
+    }
+    .vid-steps li b { font-weight: 700; color: var(--gold-1); }
+    .vid-note {
+      margin-top: 14px; font-family: var(--font); font-weight: 700;
+      font-size: 10px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--gold-2);
+    }
+
+    /* ================= EDUCATION ================= */
+    .glass {
+      background: rgba(2,8,5,0.66); backdrop-filter: blur(9px);
+      border: 1px solid rgba(236,201,111,0.16); border-radius: 22px;
+      padding: 26px 28px;
+    }
+    .edu-copy { display: grid; gap: 16px; text-align: left; }
+    .edu-copy p { color: var(--mist); font-size: clamp(13.5px, 1.7vw, 15.5px); line-height: 1.75; }
+    .edu-copy p b { color: var(--cream); font-weight: 700; }
+    .edu-copy .pull {
+      font-family: var(--font); font-weight: 900; text-transform: uppercase;
+      font-size: clamp(15px, 2.1vw, 20px); letter-spacing: .6px; line-height: 1.3;
+      background: linear-gradient(92deg, var(--cream) 30%, var(--gold-1) 85%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+    }
+
+    .ing-list { display: grid; gap: 18px; margin-top: 26px; text-align: left; }
+    .ing-row { display: grid; gap: 3px; transition: transform .3s cubic-bezier(.2,.7,.3,1); }
+    .ing-row:hover { transform: translateX(8px); }
+    .ing-big {
+      font-family: var(--font); font-weight: 900; font-size: clamp(17px, 2.4vw, 24px);
+      letter-spacing: 1px; text-transform: uppercase;
+      display: flex; align-items: center; gap: 13px;
+      background: linear-gradient(92deg, var(--cream) 30%, var(--gold-1) 85%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+      filter: drop-shadow(0 3px 14px rgba(2,8,5,0.6));
+    }
+    .ing-big::before {
+      content: ""; flex: none; width: 22px; height: 27px;
+      background: url("assets/hand-gold.png") no-repeat center / contain;
+      filter: drop-shadow(0 0 8px rgba(236,201,111,0.4));
+    }
+    .ing-sub { color: var(--cream); font-weight: 400; font-size: clamp(13px, 1.6vw, 15px); padding-left: 35px; }
+
+    /* comparison table (identical to the sales page) */
+    .cmp-wrap {
+      margin-top: 26px; background: rgba(2,8,5,0.68); backdrop-filter: blur(10px);
+      border: 1px solid rgba(236,201,111,0.25); border-radius: 16px; padding: 8px 12px; overflow-x: auto;
+    }
+    table.cmp { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .cmp th, .cmp td { padding: 9px 7px; text-align: center; border-top: 1px solid rgba(247,239,224,0.08); }
+    .cmp thead th {
+      border-top: none; font-family: var(--font); font-weight: 700; font-size: 10px;
+      letter-spacing: 1.2px; text-transform: uppercase; color: var(--mist);
+      padding: 10px 4px 8px; line-height: 1.3; vertical-align: bottom;
+    }
+    .cmp thead th.mi-col { color: var(--gold-1); font-size: 11px; }
+    .cmp td { vertical-align: top; }
+    .cmp td.feat { text-align: left; width: 26%; }
+    .cmp td.feat b { display: block; font-family: var(--font); font-weight: 700; font-size: 12.5px; color: var(--cream); line-height: 1.3; }
+    .cmp td.feat span { display: block; font-size: 9.5px; color: var(--mist); line-height: 1.35; margin-top: 1px; }
+    .cmp td.mi { background: rgba(236,201,111,0.08); }
+    .cmp .mark { display: block; font-family: var(--font); font-weight: 700; font-size: 13px; line-height: 1.2; }
+    .cmp .mark.y { color: var(--gold-1); }
+    .cmp .mark.n { color: rgba(247,239,224,0.28); }
+    .cmp .mark.v { color: #d98b3d; font-size: 11px; letter-spacing: .5px; text-transform: uppercase; padding-top: 2px; }
+    .cmp .d { display: block; font-size: 9.5px; color: var(--mist); line-height: 1.35; margin-top: 2px; }
+    .cmp td.mi .d { color: var(--gold-1); }
+
+    /* ================= REVIEW CTA ================= */
+    .rev-card {
+      width: min(620px, 100%); margin: 26px auto 0; text-align: center;
+      background: rgba(2,8,5,0.68); backdrop-filter: blur(10px);
+      border: 1px solid rgba(236,201,111,0.3); border-radius: 22px;
+      padding: 30px 26px 26px; position: relative;
+    }
+    .rev-badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--gold-1), var(--gold-2)); color: var(--forest-3);
+      font-family: var(--font); font-weight: 700; font-size: 9.5px; letter-spacing: 2px;
+      text-transform: uppercase; padding: 4px 14px; border-radius: 100px; white-space: nowrap;
+    }
+    .rev-stars { display: flex; justify-content: center; gap: 5px; margin-bottom: 12px; }
+    .rev-stars span { color: var(--gold-1); font-size: 19px; line-height: 1; filter: drop-shadow(0 0 8px rgba(236,201,111,0.35)); }
+    .rev-head {
+      font-family: var(--font); font-weight: 900; text-transform: uppercase;
+      font-size: clamp(18px, 2.6vw, 25px); letter-spacing: 1px; color: var(--cream); line-height: 1.15;
+    }
+    .rev-head .gold { color: var(--gold-1); }
+    .rev-sub { color: var(--mist); font-size: 13.5px; margin-top: 12px; }
+    .rev-sub b { color: var(--cream); font-weight: 700; }
+    .rev-btn { display: inline-block; margin-top: 20px; padding: 13px 32px; text-decoration: none; }
+    .rev-fine { font-size: 10.5px; color: rgba(247,239,224,0.5); margin-top: 12px; }
+
+    /* ================= BENEFITS (Elevate) ================= */
+    .sense { list-style: none; display: grid; gap: 12px; justify-items: start; margin-top: 24px; }
+    .sense li {
+      font-family: var(--font); font-weight: 900; font-size: clamp(17px, 2.4vw, 24px);
+      letter-spacing: 1.2px; text-transform: uppercase;
+      display: flex; align-items: center; gap: 13px;
+      background: linear-gradient(92deg, var(--cream) 30%, var(--gold-1) 85%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+      filter: drop-shadow(0 3px 14px rgba(2,8,5,0.9));
+      transition: transform .3s cubic-bezier(.2,.7,.3,1), filter .3s ease;
+    }
+    .sense li:hover {
+      transform: translateY(-3px) scale(1.04);
+      filter: drop-shadow(0 3px 14px rgba(2,8,5,0.9)) drop-shadow(0 0 14px rgba(236,201,111,0.45));
+    }
+    .sense li::before {
+      content: ""; flex: none; width: 22px; height: 27px;
+      background: url("assets/hand-gold.png") no-repeat center / contain;
+      filter: drop-shadow(0 0 8px rgba(236,201,111,0.4));
+    }
+    .split {
+      width: 100%; max-width: 1500px; margin: 22px auto 0;
+      display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 0;
+      padding: 0 clamp(20px, 4vw, 60px); text-align: left; position: relative; z-index: 1;
+    }
+    .split .hero-benefits { margin-left: clamp(24px, 4vw, 70px); position: relative; z-index: 2; }
+    .side-media { position: relative; display: grid; place-items: center; min-width: 0; }
+    .side-media::before {
+      content: ""; position: absolute; inset: 8% 12%; border-radius: 50%;
+      background: radial-gradient(circle, rgba(236,201,111,0.16), transparent 66%);
+      filter: blur(20px); z-index: -1;
+    }
+    .side-img { position: relative; display: block; width: 100%; filter: drop-shadow(0 24px 46px rgba(1,18,9,0.55)); }
+
+    /* ================= PURCHASE ================= */
+    .buy-card {
+      width: min(560px, 100%); margin: 26px auto 0; text-align: center;
+      background: rgba(2,8,5,0.68); backdrop-filter: blur(10px);
+      border: 1px solid rgba(236,201,111,0.18); border-radius: 22px;
+      padding: 22px 24px 20px;
+    }
+    .qty-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+    .qty {
+      font-family: var(--font); font-weight: 700; font-size: 10.5px; letter-spacing: 1.2px; text-transform: uppercase;
+      color: var(--gold-1); background: transparent; border: 1px solid rgba(236,201,111,0.45);
+      border-radius: 100px; padding: 7px 13px; cursor: pointer; white-space: nowrap;
+      transition: background .25s ease, color .25s ease, transform .2s ease, border-color .25s ease;
+    }
+    .qty:hover { transform: translateY(-2px); border-color: var(--gold-1); }
+    .qty.active { background: linear-gradient(135deg, var(--gold-1), var(--gold-2)); color: var(--forest-3); border-color: transparent; }
+
+    .buy-options { display: grid; grid-template-columns: 1fr 1.18fr; gap: 14px; margin-top: 16px; align-items: center; }
+    .opt {
+      position: relative; display: grid; gap: 3px; justify-items: center; align-content: start;
+      border: 1px solid rgba(236,201,111,0.25); border-radius: 16px;
+      padding: 16px 10px; background: rgba(247,239,224,0.04);
+      transition: transform .35s cubic-bezier(.2,.7,.3,1), border-color .35s ease,
+                  background .35s ease, box-shadow .35s ease;
+      will-change: transform;
+    }
+    .opt:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: var(--gold-1);
+      background: rgba(236,201,111,0.12);
+      box-shadow: 0 16px 40px rgba(2,8,5,0.55), 0 0 26px rgba(236,201,111,0.18);
+    }
+    .opt.featured {
+      border-color: var(--gold-1); border-width: 2px; background: rgba(236,201,111,0.10);
+      box-shadow: 0 12px 34px rgba(2,8,5,0.5), 0 0 24px rgba(236,201,111,0.18);
+      padding: 20px 12px; transform: scale(1.05); transform-origin: center; z-index: 2;
+    }
+    .opt.featured .opt-price { font-size: clamp(24px, 3.3vw, 31px); }
+    .opt.featured:hover { background: rgba(236,201,111,0.16); transform: scale(1.07) translateY(-4px); }
+    .opt:not(.featured) .buy-btn {
+      background: none; color: var(--gold-1);
+      box-shadow: inset 0 0 0 1.5px var(--gold-2);
+    }
+    .opt:not(.featured) .buy-btn:hover { background: rgba(236,201,111,0.12); filter: none; }
+    .opt-badge {
+      position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--gold-1), var(--gold-2)); color: var(--forest-3);
+      font-family: var(--font); font-weight: 700; font-size: 9px; letter-spacing: 2px;
+      text-transform: uppercase; padding: 3px 10px; border-radius: 100px; white-space: nowrap;
+    }
+    .opt-name { font-family: var(--font); font-weight: 700; font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--cream); }
+    .opt-price { font-family: var(--font); font-weight: 900; font-size: clamp(22px, 3vw, 28px); color: var(--gold-1); line-height: 1.1; }
+    .opt-price .permo { font-size: 12px; font-weight: 700; color: var(--mist); }
+    .opt-price .was {
+      display: inline-block; margin-right: 7px; vertical-align: 3px;
+      font-size: 13px; font-weight: 700; color: var(--mist);
+      text-decoration: line-through; text-decoration-color: rgba(247,239,224,0.55);
+    }
+    .opt-meta { font-size: 10.5px; color: var(--mist); }
+    .opt-anchor { font-family: var(--font); font-weight: 700; font-size: 10.5px; letter-spacing: .4px; color: var(--gold-2); }
+    .btn {
+      border: none; cursor: pointer;
+      background: linear-gradient(135deg, var(--gold-1), var(--gold-2));
+      color: var(--forest-3); font-family: var(--font); font-weight: 700; font-size: 13px;
+      border-radius: 100px; transition: filter .2s, transform .15s;
+    }
+    .btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .buy-btn { display: block; width: 100%; margin-top: 10px; text-align: center; text-decoration: none; padding: 11px 6px; }
+
+    /* ================= FAQ ================= */
+    .faqs { padding: 60px 0 90px; position: relative; z-index: 1; }
+    .wrap-faq { max-width: 780px; margin: 0 auto; padding: 0 20px; }
+    .faq-title { text-align: center; margin-bottom: 36px; }
+    .faq-item { margin-bottom: 14px; }
+    .faq-q {
+      width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      cursor: pointer; border: none; border-radius: 100px; padding: 15px 24px;
+      background: linear-gradient(135deg, var(--gold-1), var(--gold-2));
+      color: var(--forest-3); font-family: var(--font); font-weight: 700;
+      font-size: clamp(13px, 1.6vw, 15px); text-align: left;
+      transition: filter .2s, transform .15s;
+    }
+    .faq-q:hover { filter: brightness(1.06); transform: translateY(-1px); }
+    .chev { width: 18px; height: 18px; flex: none; transition: transform .35s ease; }
+    .faq-item.open .chev { transform: rotate(180deg); }
+    .faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s ease; }
+    .faq-item.open .faq-a { grid-template-rows: 1fr; }
+    .faq-a-inner { overflow: hidden; }
+    .faq-card {
+      margin: 12px 8px 4px; padding: 18px 22px;
+      background: rgba(2,8,5,0.6); border: 1px solid rgba(236,201,111,0.18);
+      border-radius: 20px; text-align: left;
+    }
+    .faq-card p { color: var(--mist); font-size: 14px; line-height: 1.75; margin: 0 0 12px; }
+    .faq-card p:last-child { margin-bottom: 0; }
+
+    /* ================= FOOTER ================= */
+    footer { border-top: 1px solid rgba(236,201,111,0.14); padding: 34px 0; position: relative; z-index: 1; background: rgba(2,8,5,0.6); }
+    footer .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+    .copy-sm { color: rgba(247,239,224,0.4); font-size: 13px; }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 860px) {
+      .vids { grid-template-columns: 1fr; }
+      .vid-media { aspect-ratio: 4 / 5; }
+    }
+    @media (max-width: 640px) {
+      nav .logo .logo-img { height: 62px; }
+      nav.scrolled .logo .logo-img { height: 42px; }
+      .hero { padding: 124px 0 26px; }
+      .act-title { font-size: clamp(26px, 8vw, 34px); }
+      .block { padding: 40px 0; }
+      .glass { padding: 20px 16px; }
+      .split { grid-template-columns: 1fr !important; gap: 32px; padding: 0 20px; text-align: center; }
+      .split .hero-benefits { margin: 0 !important; text-align: center; }
+      .side-media { order: -1; }
+      .side-img { width: min(100%, 460px); margin: 0 auto; }
+      .split .sense { justify-items: start; width: fit-content; margin: 22px auto 0; }
+      .sense li { font-size: 15px; gap: 10px; }
+      .sense li::before { width: 17px; height: 21px; }
+      .ing-list { width: fit-content; margin: 24px auto 0; }
+      .ing-big { font-size: 17px; }
+      .cmp .d, .cmp td.feat span { display: none; }
+      .cmp td.feat b { font-size: 11px; }
+      .cmp thead th { font-size: 9px; }
+      .buy-options { gap: 8px; grid-template-columns: 1fr 1.12fr; }
+      .opt.featured { transform: none; padding: 14px 8px; }
+      .opt.featured:hover { transform: translateY(-4px); }
+      .opt { padding: 12px 8px; }
+      .qty { font-size: 9.5px; padding: 6px 10px; }
+      .faq-q { padding: 13px 18px; border-radius: 24px; }
+      .faq-card { padding: 14px 16px; }
+      .faq-card p { font-size: 13px; }
+    }
   </style>
 </head>
 <body>
-  <main>
-    <span class="logo">
-      <svg class="mark" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-        <path d="M24 6c-2 6-2 10 0 16 2-6 2-10 0-16z" fill="#1b5130"/>
-        <path d="M24 18c-3 4-4 9-4 16h8c0-7-1-12-4-16z" fill="#2f7a45"/>
-        <path d="M14 20c2 8 4 11 8 14-2-7-4-11-8-14zM34 20c-2 8-4 11-8 14 2-7 4-11 8-14z" fill="#1b5130"/>
-      </svg>
-      Milonga
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1200071501228566&ev=PageView&noscript=1" alt="" /></noscript>
+
+  <div class="bg" aria-hidden="true"></div>
+  <div class="bg-tint" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ============ NAV: gold logo only ============ -->
+  <nav id="nav">
+    <span class="logo" aria-label="Milonga, Yerba Mate">
+      <img class="logo-img" src="assets/logo-gold.png" alt="Milonga" />
     </span>
+  </nav>
 
-    <p class="tag">Something's brewing.</p>
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div class="wrapc">
+      <h1 class="act-title fx">The Original<br/><span class="gold">Mate Latte</span></h1>
+      <p class="tagline-sub fx">Energy That Thinks</p>
+    </div>
+  </header>
 
-    <span class="eyebrow"><span class="dot"></span> Coming soon</span>
-  </main>
+  <!-- ============ 1. PREP VIDEOS — hot left, iced right ============
+       Drop the real clips in as assets/video/hot.mp4 and assets/video/iced.mp4
+       (H.264 + AAC .mp4 plays everywhere). Until those files exist each frame
+       shows a branded placeholder instead of a broken player — see the video
+       fallback script at the bottom of this file.
+       ============================================================ -->
+  <section class="block" id="how">
+    <div class="wrapw">
+      <div class="wrapc" style="width:100%">
+        <h2 class="act-title fx">Two Ways<br/><span class="gold">To Make It</span></h2>
+        <p class="tagline-sub fx">Ready In 30 Seconds</p>
+      </div>
+
+      <div class="vids">
+        <!-- ---------- HOT ---------- -->
+        <article class="vid fx">
+          <div class="vid-head">
+            <svg viewBox="0 0 40 40" fill="none" stroke="#ecc96f" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M10 17 h17 v10 a7 7 0 0 1 -7 7 h-3 a7 7 0 0 1 -7 -7 z"/>
+              <path d="M27 19 h3 a4 4 0 0 1 0 8 h-3"/>
+              <path d="M14 6 c0 2.4 2 3 2 5.4 M20 5 c0 2.4 2 3 2 5.4 M26 6 c0 2.4 2 3 2 5.4"/>
+            </svg>
+            <div class="vid-name">Hot<span>The Morning Ritual</span></div>
+          </div>
+
+          <div class="vid-media" data-video>
+            <video controls playsinline preload="metadata" poster="assets/poster.jpg">
+              <source src="assets/video/hot.mp4" type="video/mp4" />
+            </video>
+            <div class="vid-fallback">
+              <div class="vf-in">
+                <span class="vf-ring" aria-hidden="true"></span>
+                <span class="vf-txt">Video coming soon</span>
+              </div>
+            </div>
+          </div>
+
+          <ol class="vid-steps">
+            <li>Add <b>one scoop</b> to your favourite mug.</li>
+            <li>Pour in <b>8 oz of hot milk</b> — oat, almond or dairy. Water works too.</li>
+            <li><b>Whisk 15 seconds</b> until smooth and frothy.</li>
+            <li>Sip slowly. The lift builds over minutes, not seconds.</li>
+          </ol>
+          <p class="vid-note">Best just below boiling</p>
+        </article>
+
+        <!-- ---------- ICED ---------- -->
+        <article class="vid fx">
+          <div class="vid-head">
+            <svg viewBox="0 0 40 40" fill="none" stroke="#ecc96f" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 11 h16 l-2 22 a2 2 0 0 1 -2 1.8 h-8 a2 2 0 0 1 -2 -1.8 z"/>
+              <path d="M12.6 19 h14.8"/>
+              <path d="M16 23 l3 3 M23 23 l-3 3 M19.5 28 l2 2.4"/>
+            </svg>
+            <div class="vid-name">Iced<span>The Afternoon Reset</span></div>
+          </div>
+
+          <div class="vid-media" data-video>
+            <video controls playsinline preload="metadata" poster="assets/poster.jpg">
+              <source src="assets/video/iced.mp4" type="video/mp4" />
+            </video>
+            <div class="vid-fallback">
+              <div class="vf-in">
+                <span class="vf-ring" aria-hidden="true"></span>
+                <span class="vf-txt">Video coming soon</span>
+              </div>
+            </div>
+          </div>
+
+          <ol class="vid-steps">
+            <li>Add <b>one scoop</b> plus <b>2 oz of hot water</b> and whisk — this dissolves it fully.</li>
+            <li>Fill a tall glass with <b>ice</b>.</li>
+            <li>Top with <b>8 oz of cold milk</b>, then pour the concentrate over.</li>
+            <li>Stir or shake, and enjoy.</li>
+          </ol>
+          <p class="vid-note">Dissolve first, then chill</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2. WHAT YERBA MATE ACTUALLY IS ============ -->
+  <section class="block">
+    <div class="wrapc">
+      <h2 class="act-title fx">What Is<br/><span class="gold">Yerba Mate?</span></h2>
+      <p class="tagline-sub fx">300 Years Of Daily Ritual</p>
+
+      <div class="glass fx" style="margin-top:26px">
+        <div class="edu-copy">
+          <p>Yerba mate is the leaf of a South American holly tree, dried and steeped for centuries across Argentina, Uruguay, Paraguay and southern Brazil. It has never really been a health trend there — <b>it is simply how people start the day, and how they share one.</b></p>
+          <p class="pull">It isn't tea. It isn't coffee. It behaves like neither.</p>
+          <p>Mate carries caffeine for the lift, <b>theobromine</b> to widen and soften that lift, and naturally occurring antioxidants. Coffee gives you the first of those on its own — which is exactly why it spikes hard and drops just as hard. Mate climbs gently, holds for hours, and lets you back down without the crash.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. BETTER THAN COFFEE & THE ALTERNATIVES ============ -->
+  <section class="block">
+    <div class="wrapc">
+      <h2 class="act-title fx">Why Upgrade To<br/><span class="gold">The Mate Latte?</span></h2>
+      <p class="tagline-sub fx">Is That Even A Question?</p>
+      <div class="cmp-wrap fx">
+        <table class="cmp">
+          <thead>
+            <tr>
+              <th></th>
+              <th class="mi-col">Mate Latte</th>
+              <th>Matcha</th>
+              <th>Coffee</th>
+              <th>Mushroom<br/>Coffee</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="feat"><b>Smooth caffeine</b><span>No jitters or crash</span></td>
+              <td class="mi"><span class="mark y">✓</span><span class="d">100mg from yerba mate</span></td>
+              <td><span class="mark y">✓</span><span class="d">~70mg</span></td>
+              <td><span class="mark n">✗</span><span class="d">Spikes + crashes</span></td>
+              <td><span class="mark v">Varies</span><span class="d">Still coffee-based</span></td>
+            </tr>
+            <tr>
+              <td class="feat"><b>L-theanine</b><span>Calm focus, no anxiety</span></td>
+              <td class="mi"><span class="mark y">✓</span><span class="d">200mg added</span></td>
+              <td><span class="mark v">Trace</span><span class="d">~25mg natural</span></td>
+              <td><span class="mark n">✗</span></td>
+              <td><span class="mark n">✗</span><span class="d">Most brands omit</span></td>
+            </tr>
+            <tr>
+              <td class="feat"><b>Lion's mane</b><span>Cognitive support</span></td>
+              <td class="mi"><span class="mark y">✓</span><span class="d">500mg clinical dose</span></td>
+              <td><span class="mark n">✗</span></td>
+              <td><span class="mark n">✗</span></td>
+              <td><span class="mark y">✓</span><span class="d">Varies by brand</span></td>
+            </tr>
+            <tr>
+              <td class="feat"><b>Dairy-free latte</b><span>Just add water</span></td>
+              <td class="mi"><span class="mark y">✓</span><span class="d">Oat + coconut built in</span></td>
+              <td><span class="mark n">✗</span><span class="d">Needs milk/creamer</span></td>
+              <td><span class="mark n">✗</span><span class="d">Needs creamer</span></td>
+              <td><span class="mark n">✗</span><span class="d">Needs creamer</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. HOW MILONGA INNOVATES ============ -->
+  <section class="block">
+    <div class="wrapc">
+      <h2 class="act-title fx">Three Main <span class="gold">Ingredients</span></h2>
+      <p class="tagline-sub fx">One Unique Experience</p>
+
+      <div class="glass fx" style="margin-top:26px">
+        <div class="edu-copy">
+          <p>Traditional mate is brewed loose in a gourd and shared through a metal straw. Wonderful — but bitter, green, and not something you make on a Tuesday before work.</p>
+          <p><b>So we rebuilt it as a latte.</b> Creamy vanilla, oat and coconut already in the blend, dissolved in 30 seconds. Then we added the two things mate alone doesn't give you.</p>
+        </div>
+
+        <div class="ing-list">
+          <div class="ing-row">
+            <span class="ing-big">100mg Yerba Mate</span>
+            <span class="ing-sub">Clean, sustained energy &amp; rich antioxidants.</span>
+          </div>
+          <div class="ing-row">
+            <span class="ing-big">500mg Lion's Mane</span>
+            <span class="ing-sub">Focus and memory — a full dose, not a dusting.</span>
+          </div>
+          <div class="ing-row">
+            <span class="ing-big">200mg L-Theanine</span>
+            <span class="ing-sub">Balanced calm. This is what takes the edge off caffeine.</span>
+          </div>
+        </div>
+
+        <div class="edu-copy" style="margin-top:26px">
+          <p class="pull">Mate for the energy. Lion's mane for the clarity. L-theanine for the calm.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5. LEAVE A REVIEW → 15% OFF ============
+       The discount is NOT automatic yet. It needs a review platform
+       (Judge.me / Loox / Okendo) connected to a Shopify automatic discount.
+       Set REVIEW_URL in the script below to that platform's review form.
+       ============================================================ -->
+  <section class="block">
+    <div class="wrapc">
+      <div class="rev-card fx">
+        <span class="rev-badge">15% Off Your Next Order</span>
+        <div class="rev-stars" aria-hidden="true">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <h2 class="rev-head">Tell Us How<br/><span class="gold">You Drink Yours</span></h2>
+        <p class="rev-sub">
+          Hot at 7am? Iced after the gym? Leave a review and we'll send you
+          <b>15% off your next order</b> — automatically.
+        </p>
+        <a class="btn rev-btn" href="#" data-review>Leave A Review</a>
+        <p class="rev-fine">Takes under a minute · One discount per customer</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6. ELEVATE YOUR MORNING RITUAL + RE-ORDER ============ -->
+  <section class="block">
+    <div class="split">
+      <div class="side-media fx">
+        <img class="side-img" src="assets/mate-bouquet.png" alt="Milonga Mate Latte bag with vanilla, mate leaves and powder" />
+      </div>
+      <div class="hero-benefits fx">
+        <h2 class="act-title sm">Elevate Your<br/><span class="gold">Morning Ritual</span></h2>
+        <p class="tagline-sub">Everything Your Mornings Need</p>
+        <ul class="sense">
+          <li>Clean, Sustained Energy</li>
+          <li>Mental Focus</li>
+          <li>Calm, No Jitters</li>
+          <li>No Synthetic Sweeteners</li>
+          <li>Antioxidant-Rich</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="wrapc" style="margin-top:48px">
+      <h2 class="act-title sm fx">Running Low?<br/><span class="gold">Re-Order</span></h2>
+      <p class="tagline-sub fx">Never Miss A Morning</p>
+
+      <div class="buy-card fx">
+        <div class="qty-row" role="group" aria-label="Quantity">
+          <button class="qty active" type="button" data-qty="1">Buy 1</button>
+          <button class="qty" type="button" data-qty="2">Buy 2 &middot; Save 10%</button>
+          <button class="qty" type="button" data-qty="3">Buy 3 &middot; Save 15%</button>
+        </div>
+        <div class="buy-options">
+          <div class="opt">
+            <div class="opt-name">One-Time</div>
+            <div class="opt-price">$29.99</div>
+            <div class="opt-meta">15 servings</div>
+            <div class="opt-anchor">$2.00 per serving</div>
+            <a class="btn buy-btn" href="#" data-checkout="onetime">Re-Order</a>
+          </div>
+          <div class="opt featured">
+            <span class="opt-badge">Save 15%</span>
+            <div class="opt-name">Subscribe &amp; Save</div>
+            <div class="opt-price">$25.49<span class="permo">/mo</span></div>
+            <div class="opt-meta">15 servings monthly · cancel anytime</div>
+            <div class="opt-anchor">$1.70 per serving</div>
+            <a class="btn buy-btn" href="#" data-checkout="subscribe">Subscribe &amp; Save</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 7. FAQ ============ -->
+  <section class="faqs" id="faq">
+    <div class="wrap-faq">
+      <h2 class="act-title faq-title fx">FA<span class="gold">Q</span></h2>
+      <div class="faq-list fx">
+
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false">
+            <span>What is Milonga Mate Latte?</span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner"><div class="faq-card">
+            <p>Milonga's Mate Latte is your new daily clean energy ritual. A unique blend of organic yerba mate, Lion's Mane, and L-theanine. The result is a rich, creamy vanilla Mate Latte that's easy to make and even easier to love. Just whisk one scoop and elevate your daily rituals.</p>
+          </div></div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false">
+            <span>Is this coffee?</span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner"><div class="faq-card">
+            <p>No, and that's exactly why people love it.</p>
+            <p>Milonga's Mate Latte contains zero coffee. Instead, it gets its energy from organic yerba mate, one of the healthiest caffeine sources in the world. You get the same comforting morning ritual with smoother, longer-lasting energy, focus, and balanced calm, without the jitters, anxiety, or afternoon crash that coffee often brings.</p>
+          </div></div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false">
+            <span>How much caffeine does it contain?</span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner"><div class="faq-card">
+            <p>Each serving contains 100mg of naturally occurring caffeine from organic yerba mate.</p>
+            <p>Unlike coffee and other alternatives, our formula pairs that natural caffeine with 200mg of L-theanine and 500mg of Lion's Mane to deliver smooth, sustained energy, sharper focus, and a calm, balanced feeling, without the wired sensation.</p>
+          </div></div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false">
+            <span>How do I prepare it? Can I drink it hot or iced?</span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner"><div class="faq-card">
+            <p>Both.</p>
+            <p>Simply mix one scoop with hot or cold milk (or water, if you prefer), whisk or shake until smooth, and enjoy. Whether you love a cozy morning latte or a refreshing iced drink, Milonga Mate Latte fits your routine.</p>
+          </div></div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false">
+            <span>What does it taste like?</span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner"><div class="faq-card">
+            <p>Think of your favorite vanilla latte, but without disrupting feelings or compromising your health.</p>
+            <p>Milonga Mate Latte is smooth, creamy, and naturally delicious with a rich vanilla flavor. There's no earthy or grassy taste and none of the bitterness people often associate with yerba mate. It feels like an indulgent café drink, not a typical health beverage.</p>
+          </div></div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false">
+            <span>Does it contain sugar? How many calories are in each serving?</span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner"><div class="faq-card">
+            <p>Each serving contains less than 3g of sugar and approximately 90 calories.</p>
+            <p>The final nutrition depends on the milk you choose, making it easy to customize to your lifestyle. We kept the ingredient list simple and clean, so you get delicious flavor without unnecessary sugars or fillers.</p>
+          </div></div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false">
+            <span>How will I feel?</span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner"><div class="faq-card">
+            <p>You'll feel uplifted, focused, and calm. Thanks to the combination of organic yerba mate, Lion's Mane, and L-theanine, without the jitters or crash of coffee. Enjoy it first thing in the morning, before work or studying, before a workout, or anytime you need a clean boost to power through your day.</p>
+          </div></div></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="wrap">
+      <span class="logo">
+        <img src="assets/logo-gold.png" alt="Milonga" style="height:44px;width:auto;display:block" />
+        <span class="word" style="font-size:16px">MILONGA</span>
+      </span>
+      <div class="copy-sm">© 2026 Milonga Life Corp · milonga.life · Energy That Thinks</div>
+    </div>
+  </footer>
+
+  <script>
+    /* ---------- pinned logo shrinks on scroll ---------- */
+    const nav = document.getElementById("nav");
+    window.addEventListener("scroll", () => {
+      nav.classList.toggle("scrolled", window.scrollY > 40);
+    }, { passive: true });
+
+    /* ---------- content reveals on scroll ---------- */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll(".fx").forEach(el => io.observe(el));
+
+    /* ---------- prep videos ----------
+       The clips aren't uploaded yet. Rather than ship a broken player, each
+       frame falls back to a branded "coming soon" panel when the file is
+       missing. Drop assets/video/hot.mp4 + assets/video/iced.mp4 in and the
+       fallback disappears on its own — no code change needed. */
+    document.querySelectorAll("[data-video]").forEach(frame => {
+      const video = frame.querySelector("video");
+      const source = frame.querySelector("source");
+      if (!video || !source) return;
+      const markMissing = () => frame.classList.add("missing");
+      source.addEventListener("error", markMissing);
+      video.addEventListener("error", markMissing);
+      // A file that never resolves leaves readyState at 0; check once metadata
+      // has had a fair chance to load.
+      setTimeout(() => { if (video.readyState === 0) markMissing(); }, 3000);
+    });
+
+    /* ---------- "Leave a review" ----------
+       REVIEW_URL must point at the review form of whichever platform issues
+       the 15% code (Judge.me / Loox / Okendo). Until it is set, the button
+       falls back to the contact page so it is never a dead link. */
+    const REVIEW_URL = "";                                   // ← paste the review form URL
+    const REVIEW_FALLBACK = "https://milonga.life/pages/contact";
+    document.querySelectorAll("[data-review]").forEach(a => {
+      a.href = REVIEW_URL || REVIEW_FALLBACK;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.addEventListener("click", () => {
+        if (window.gtag) gtag("event", "review_cta_click");
+        if (window.fbq) fbq("trackCustom", "ReviewCtaClick");
+      });
+    });
+
+    /* ---------- Shopify checkout ----------
+       Same variants, selling plan and pricing as the sales page. PRIMARY path
+       is the Storefront API cartCreate (the only reliable way to start a
+       subscription from an external site); FALLBACK is a POST to /cart/add.
+       NOTE: these constants are duplicated from the sales page — if prices or
+       variant IDs change there, change them here too. */
+    const SHOP = "https://milonga.life";
+    const STOREFRONT_TOKEN = "";          // ← paste the Storefront API access token here
+    const API_VERSION = "2025-01";
+    const SELLING_PLAN = "8837562678";    // Appstle "Mate Mornings Club" — monthly, 15% off
+    const VARIANTS = { 1: "54302750212406", 2: "54302750245174", 3: "54302750277942" };
+    const PRODUCT_NAME = "Milonga Mate Latte";
+
+    const PRICING = {
+      base: 29.99,
+      sub: 0.15,
+      qty: { 1: 0, 2: 0.10, 3: 0.15 }
+    };
+    const fmt = n => "$" + n.toFixed(2);
+    const round2 = n => Math.round(n * 100) / 100;
+
+    function priceForItem(kind, q) {
+      const qd = PRICING.qty[q] || 0;
+      const unit = round2(PRICING.base * q * (1 - qd));
+      return kind === "subscribe" ? round2(unit * (1 - PRICING.sub)) : unit;
+    }
+
+    function ecommerceFor(kind, q) {
+      const value = priceForItem(kind, q);
+      return {
+        currency: "USD",
+        value: value,
+        items: [{
+          item_id: VARIANTS[q],
+          item_name: PRODUCT_NAME,
+          item_variant: (kind === "subscribe" ? "Subscribe & Save" : "One-Time") + " · " + q + "-pack",
+          item_category: kind === "subscribe" ? "subscription" : "one-time",
+          price: value,
+          quantity: 1
+        }]
+      };
+    }
+
+    function trackEcommerce(event, kind, q) {
+      const ec = ecommerceFor(kind, q);
+      const item = ec.items[0];
+      if (window.gtag) {
+        gtag("event", event, { currency: ec.currency, value: ec.value, items: ec.items });
+      }
+      if (window.fbq) {
+        const metaEvent = event === "begin_checkout" ? "InitiateCheckout" : "AddToCart";
+        fbq("track", metaEvent, {
+          content_ids: [item.item_id],
+          content_type: "product",
+          contents: [{ id: item.item_id, quantity: item.quantity }],
+          value: ec.value,
+          currency: ec.currency
+        });
+      }
+    }
+
+    function flushThenNavigate(go) {
+      let done = false;
+      const run = () => { if (done) return; done = true; go(); };
+      setTimeout(run, 300);
+    }
+
+    async function goToCheckout(kind, q) {
+      const id = VARIANTS[q];
+      if (!id) return;
+      if (STOREFRONT_TOKEN) {
+        const line = { merchandiseId: "gid://shopify/ProductVariant/" + id, quantity: 1 };
+        if (kind === "subscribe") line.sellingPlanId = "gid://shopify/SellingPlan/" + SELLING_PLAN;
+        try {
+          const res = await fetch(SHOP + "/api/" + API_VERSION + "/graphql.json", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Shopify-Storefront-Access-Token": STOREFRONT_TOKEN
+            },
+            body: JSON.stringify({
+              query: "mutation($lines:[CartLineInput!]!){cartCreate(input:{lines:$lines}){cart{checkoutUrl}userErrors{message}}}",
+              variables: { lines: [line] }
+            })
+          });
+          const json = await res.json();
+          const url = json && json.data && json.data.cartCreate && json.data.cartCreate.cart
+            ? json.data.cartCreate.cart.checkoutUrl : null;
+          if (url) {
+            trackEcommerce("add_to_cart", kind, q);
+            trackEcommerce("begin_checkout", kind, q);
+            flushThenNavigate(() => { window.location.href = url; });
+            return;
+          }
+        } catch (e) { /* fall through to /cart/add */ }
+      }
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = SHOP + "/cart/add";
+      const field = (name, value) => {
+        const i = document.createElement("input");
+        i.type = "hidden"; i.name = name; i.value = value;
+        form.appendChild(i);
+      };
+      field("id", id);
+      field("quantity", "1");
+      if (kind === "subscribe") field("selling_plan", SELLING_PLAN);
+      field("return_to", "/checkout");
+      document.body.appendChild(form);
+      trackEcommerce("add_to_cart", kind, q);
+      trackEcommerce("begin_checkout", kind, q);
+      flushThenNavigate(() => { form.submit(); });
+    }
+
+    function wireButtons(card, q) {
+      card.querySelectorAll("[data-checkout]").forEach(a => {
+        a.href = "#";
+        a.onclick = e => { e.preventDefault(); goToCheckout(a.dataset.checkout, q); };
+      });
+    }
+
+    function renderCard(card, q) {
+      const qd = PRICING.qty[q] || 0;
+      const gross = PRICING.base * q;
+      const unit  = round2(gross * (1 - qd));
+      card.querySelectorAll(".opt").forEach(opt => {
+        const isSub = opt.classList.contains("featured");
+        const price = isSub ? round2(unit * (1 - PRICING.sub)) : unit;
+        const priceEl  = opt.querySelector(".opt-price");
+        const metaEl   = opt.querySelector(".opt-meta");
+        const anchorEl = opt.querySelector(".opt-anchor");
+        const wasVal = isSub ? unit : gross;
+        const crossed = isSub || qd > 0;
+        priceEl.innerHTML =
+          (crossed ? `<span class="was">${fmt(wasVal)}</span>` : "") +
+          fmt(price) + (isSub ? `<span class="permo">/mo</span>` : "");
+        if (metaEl) {
+          const bags = q === 1 ? "" : `${q} bags · `;
+          metaEl.textContent = isSub
+            ? `${bags}${q * 15} servings monthly · cancel anytime`
+            : `${bags}${q * 15} servings`;
+        }
+        if (anchorEl) anchorEl.textContent = fmt(price / (q * 15)) + " per serving";
+      });
+      wireButtons(card, q);
+    }
+
+    document.querySelectorAll(".buy-card").forEach(card => {
+      const row = card.querySelector(".qty-row");
+      if (row) {
+        row.querySelectorAll(".qty").forEach(btn => btn.addEventListener("click", () => {
+          row.querySelectorAll(".qty").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          renderCard(card, parseInt(btn.dataset.qty, 10));
+        }));
+      }
+      renderCard(card, 1);
+    });
+
+    /* ---------- FAQ accordion ---------- */
+    document.querySelectorAll(".faq-q").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const item = btn.parentElement;
+        const open = item.classList.toggle("open");
+        btn.setAttribute("aria-expanded", open);
+      });
+    });
+  </script>
 </body>
 </html>
