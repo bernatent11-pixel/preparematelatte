@@ -346,8 +346,9 @@
       gap: clamp(20px, 3vw, 44px); align-items: center; text-align: left;
     }
     .ing-split .side-media { position: relative; }
-    /* the scoop shot bleeds right so the hand runs toward the page edge */
-    .ing-split .side-img { width: calc(100% + 5vw); max-width: none; margin-right: -5vw; }
+    /* the scoop shot runs well past the column so the arm leaves the viewport
+       rather than ending inside the layout */
+    .ing-split .side-img { width: calc(100% + 15vw); max-width: none; margin-right: -15vw; }
     .ing-copy .act-title { font-size: clamp(28px, 4.2vw, 46px); }
     .ing-copy .tagline-sub { margin-left: 0; margin-right: 0; letter-spacing: 3px; }
     .ing-copy .ing-list { margin-top: 30px; }
@@ -548,42 +549,45 @@
     .copy-sm { color: rgba(247,239,224,0.4); font-size: 13px; }
 
     /* ================= RESPONSIVE =================
-       Three steps, so the page stays structured at every width:
-       <=1024px  laptops and half-screen windows: drop the edge bleeds
-       <=900px   every two-column block stacks
-       <=640px   phones: typography and control sizing
+       Elevate and the ingredients section stay SIDE BY SIDE at every width,
+       including phones - image left / text right for Elevate, text left /
+       image right for the ingredients. Only their proportions and type
+       scale down. Everything else stacks at 900px.
        ============================================== */
 
-    /* laptops / split-screen windows: images stop running past the column,
-       which is what made them crowd the copy at these widths */
+    /* laptops and half-screen windows */
     @media (max-width: 1024px) {
-      .mate-aside .side-img,
-      .ing-split .side-img { width: 100%; margin-right: 0; }
+      .mate-aside .side-img { width: 100%; margin-right: 0; }
+      .ing-split .side-img { width: calc(100% + 8vw); margin-right: -8vw; }
       .mate-split { grid-template-columns: 1fr 1fr; gap: 26px; }
-      .ing-copy .act-title { font-size: clamp(26px, 4vw, 36px); }
-      .steps { gap: 10px; }
-      .step-i svg { width: 42px; height: 42px; }
+      .ing-copy .act-title { font-size: clamp(24px, 3.6vw, 34px); }
+      .steps { gap: 9px; }
+      .step-i svg { width: 40px; height: 40px; }
       .scoop-badge { padding: 11px 20px; }
     }
 
-    /* one width where every split becomes a single column */
     @media (max-width: 900px) {
       .vids { grid-template-columns: 1fr; }
       .vid-media { aspect-ratio: 4 / 5; }
 
-      .split { grid-template-columns: 1fr !important; gap: 30px; padding: 0 20px; text-align: center; }
-      .split .hero-benefits { margin: 0 !important; text-align: center; }
-      .split .side-media { order: -1; }
-      .split .side-img { width: min(100%, 440px); margin: 0 auto; }
-      .split .sense { justify-items: start; width: fit-content; margin: 22px auto 0; }
-
+      /* stacks; the two side-by-side sections below deliberately do not */
       .mate-split { grid-template-columns: 1fr; gap: 26px; }
       .mate-aside .side-img { width: min(100%, 480px); margin: 0 auto; }
 
-      .ing-split { grid-template-columns: 1fr; gap: 28px; }
-      .ing-split .side-img { width: min(100%, 520px); margin: 0 auto; }
-      .steps { flex-wrap: wrap; row-gap: 16px; }
-      .scoop-badge { top: 3%; left: 40%; }
+      /* Elevate: image keeps the left, copy the right */
+      .split { grid-template-columns: 0.82fr 1.18fr; gap: 16px; padding: 0 20px; }
+      .split .hero-benefits { margin-left: 4px !important; }
+      .sense { gap: 10px; }
+      .sense li { font-size: clamp(12px, 3.1vw, 17px); gap: 9px; }
+      .sense li::before { width: 15px; height: 19px; }
+
+      /* Ingredients: copy keeps the left, scoop shot the right */
+      .ing-split { grid-template-columns: 1.1fr 0.9fr; gap: 14px; }
+      .ing-split .side-img { width: calc(100% + 10vw); margin-right: -10vw; }
+      .steps { flex-wrap: wrap; row-gap: 12px; gap: 7px; }
+      .scoop-badge { padding: 8px 14px; top: 2%; left: 34%; }
+      .scoop-badge .sb-big { font-size: 11px; }
+      .scoop-badge .sb-sm { font-size: 8px; letter-spacing: 1.6px; margin-top: 2px; }
     }
 
     /* phones */
@@ -592,13 +596,36 @@
       nav.scrolled .logo .logo-img { height: 42px; }
       .hero { padding: 124px 0 26px; }
       .act-title { font-size: clamp(26px, 8vw, 34px); }
-      .ing-copy .act-title { font-size: clamp(24px, 7.4vw, 32px); }
       .block { padding: 40px 0; }
-      .tagline-sub, .ing-copy .tagline-sub { letter-spacing: 2.4px; }
+      .tagline-sub { letter-spacing: 2.4px; }
 
-      .sense li { font-size: 15px; gap: 10px; }
-      .sense li::before { width: 17px; height: 21px; }
-      .ing-big { font-size: 17px; }
+      /* both side-by-side sections: narrower gutters, smaller type */
+      .split { grid-template-columns: 0.78fr 1.22fr; gap: 10px; padding: 0 14px; }
+      .split .hero-benefits { margin-left: 0 !important; }
+      .act-title.sm { font-size: clamp(17px, 5vw, 24px); }
+      .split .tagline-sub { font-size: 9px; letter-spacing: 1.6px; margin-top: 8px; }
+      .sense { gap: 8px; margin-top: 14px; }
+      .sense li { font-size: clamp(10.5px, 3.2vw, 14px); gap: 7px; letter-spacing: .6px; }
+      .sense li::before { width: 12px; height: 15px; }
+
+      .ing-split { grid-template-columns: 1.15fr 0.85fr; gap: 8px; }
+      .ing-copy .act-title { font-size: clamp(17px, 5vw, 24px); }
+      .ing-copy .tagline-sub { font-size: 9px; letter-spacing: 1.6px; }
+      .ing-copy .ing-list { margin-top: 18px; gap: 13px; }
+      .ing-big { font-size: clamp(12px, 3.6vw, 16px); gap: 8px; }
+      .ing-big::before { width: 14px; height: 17px; }
+      .ing-sub { font-size: 11px; padding-left: 22px; }
+      .steps { margin-top: 18px; gap: 5px; row-gap: 10px; }
+      .step-i svg { width: 27px; height: 27px; }
+      .step-i .lbl { font-size: 8px; letter-spacing: 1.2px; }
+      .step-i.mini svg { width: 21px; height: 21px; }
+      .step-arrow, .branch-arrow { font-size: 14px; padding-bottom: 14px; }
+      .branch-arrow { padding-bottom: 0; }
+      .steps-note { font-size: 9px; letter-spacing: 1.6px; }
+      .scoop-badge { padding: 6px 10px; top: 1%; left: 30%; }
+      .scoop-badge .sb-big { font-size: 8.5px; letter-spacing: 0; }
+      .scoop-badge .sb-sm { font-size: 6.5px; letter-spacing: 1px; margin-top: 1px; }
+
       .benefits { grid-template-columns: 1fr; }
 
       /* table: drop the row captions and tighten, but keep every column */
@@ -609,11 +636,6 @@
       .cmp th, .cmp td { padding: 10px 4px; }
       .cmp .val { font-size: 10.5px; }
       .cmp .mark { font-size: 14px; }
-
-      .steps { gap: 8px; }
-      .step-i svg { width: 38px; height: 38px; }
-      .step-i .lbl { font-size: 10px; letter-spacing: 1.8px; }
-      .scoop-badge { padding: 9px 16px; top: 2%; left: 38%; }
 
       .buy-options { gap: 8px; grid-template-columns: 1fr 1.12fr; }
       .opt.featured { transform: none; padding: 14px 8px; }
@@ -828,6 +850,13 @@
               <td><span class="val">Common</span></td>
               <td><span class="val">Rare</span></td>
               <td><span class="val">Depends</span></td>
+            </tr>
+            <tr>
+              <td class="feat"><b>Mental clarity</b><span>How the focus feels</span></td>
+              <td class="mi"><span class="val">Clear, sustained</span></td>
+              <td><span class="val">Sharp, short-lived</span></td>
+              <td><span class="val">Calm, steady</span></td>
+              <td><span class="val">Varies</span></td>
             </tr>
             <tr>
               <td class="feat"><b>Antioxidants</b><span>Polyphenols &amp; saponins</span></td>
