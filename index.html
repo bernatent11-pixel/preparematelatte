@@ -383,27 +383,6 @@
 
     /* ================= REVIEWS ================= */
     /* gold cards on the dark ground, scrolled sideways, edges faded out */
-    .rev-seal {
-      display: inline-grid; place-items: center; gap: 0;
-      width: clamp(96px, 12vw, 124px); aspect-ratio: 1; border-radius: 50%;
-      margin-top: 26px; transform: rotate(-8deg); position: relative; overflow: hidden;
-      background: linear-gradient(145deg, #f6da8a 0%, #e7bd60 55%, #d8a748 100%);
-      color: var(--forest-3); text-align: center; line-height: 1;
-      box-shadow:
-        0 16px 38px rgba(1,18,9,0.55),
-        0 0 30px rgba(236,201,111,0.5),
-        inset 0 2px 3px rgba(255,255,255,0.55),
-        inset 0 -3px 6px rgba(150,105,30,0.45);
-    }
-    .rev-seal::after {
-      content: ""; position: absolute; top: 0; left: -60%; width: 45%; height: 100%;
-      background: linear-gradient(100deg, transparent, rgba(255,255,255,0.65), transparent);
-      transform: skewX(-18deg); animation: sb-sheen 4.2s ease-in-out infinite;
-    }
-    @media (prefers-reduced-motion: reduce) { .rev-seal::after { animation: none; } }
-    .rev-seal .seal-num { font-family: var(--font); font-weight: 900; font-size: clamp(26px, 3.4vw, 34px); letter-spacing: -.5px; }
-    .rev-seal .seal-txt { font-family: var(--font); font-weight: 700; font-size: clamp(7.5px, .95vw, 9px); letter-spacing: 1.8px; text-transform: uppercase; margin-top: 3px; opacity: .85; }
-
     .rev-rail-wrap {
       margin-top: clamp(26px, 3.4vw, 40px);
       -webkit-mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
@@ -449,7 +428,7 @@
     }
     .rev-foot { text-align: center; margin-top: clamp(6px, 1.4vw, 14px); }
     .rev-foot-btn { display: inline-block; padding: 14px 36px; text-decoration: none; font-size: 13.5px; }
-    .rev-fine { font-size: 11px; color: rgba(247,239,224,0.55); margin-top: 12px; letter-spacing: .3px; }
+    .rev-foot .tagline-sub { margin-top: 16px; }
 
     /* ================= BENEFITS (Elevate) ================= */
     .sense { list-style: none; display: grid; gap: 12px; justify-items: start; margin-top: 24px; }
@@ -671,7 +650,6 @@
       .rev-body { font-size: 12px; -webkit-line-clamp: 7; }
       .rev-rail { padding-left: 16px; padding-right: 16px; gap: 12px; }
       .rev-foot-btn { padding: 13px 26px; font-size: 12.5px; }
-      .rev-fine { font-size: 10px; }
 
       /* table: drop the row captions and tighten, but keep every column */
       .cmp td.feat span { display: none; }
@@ -1039,12 +1017,6 @@
     <div class="wrapc">
       <h2 class="act-title fx">Give Us<br/><span class="gold">Your Thoughts</span></h2>
       <p class="tagline-sub fx">Unlock 15% Off Your Next Order</p>
-      <div class="fx">
-        <span class="rev-seal" role="img" aria-label="15 percent off your next order">
-          <span class="seal-num">15%</span>
-          <span class="seal-txt">Off Next Order</span>
-        </span>
-      </div>
     </div>
 
     <div class="rev-rail-wrap fx">
@@ -1063,15 +1035,15 @@
         </article>
         <article class="rev-item">
           <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-          <h3 class="rev-title">Hot or cold, however you want it.</h3>
-          <p class="rev-body">I love that you can have the mate latte hot or cold. I usually make it over ice in the morning when I want something refreshing, but on slower mornings, I’ll make it warm and it feels like a cozy latte. Same great taste, just depends on the mood.</p>
-          <p class="rev-by">Santiago Torre</p>
-        </article>
-        <article class="rev-item">
-          <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
           <h3 class="rev-title">Best morning latte I’ve ever had</h3>
           <p class="rev-body">No jitters, superb taste, not too sweet. Easily best morning drink anyone can have. I’ve never been so wired when I first drank it but I felt truly relaxed. Highly recommend</p>
           <p class="rev-by">Anonymous</p>
+        </article>
+        <article class="rev-item">
+          <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <h3 class="rev-title">Hot or cold, however you want it.</h3>
+          <p class="rev-body">I love that you can have the mate latte hot or cold. I usually make it over ice in the morning when I want something refreshing, but on slower mornings, I’ll make it warm and it feels like a cozy latte. Same great taste, just depends on the mood.</p>
+          <p class="rev-by">Santiago Torre</p>
         </article>
         <article class="rev-item">
           <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
@@ -1079,13 +1051,73 @@
           <p class="rev-body">Finally, a coffee alternative that doesn’t taste like I’m forcing myself to drink something “healthy.” The Mate Latte is genuinely enjoyable. It’s creamy, smooth, and easy to make, while still giving me the clean caffeine boost I need. I also like that the formula includes ingredients like Lion’s Mane and L-theanine for focus and staying calm.</p>
           <p class="rev-by">Francisco T</p>
         </article>
+        <article class="rev-item">
+          <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <h3 class="rev-title">I’m speechless with the mate latte</h3>
+          <p class="rev-body">The taste was what sold me first. It’s creamy, lightly sweet, and has a really nice vanilla flavor without tasting like an overly sugary coffee drink. It only has 90 calories and less than 3g of sugar per scoop. That’s crazy! The energy and focus is a bonus. I feel awake and productive, especially during busy mornings. Compared with other functional coffees I’ve tried, this one is much easier to drink consistently.</p>
+          <p class="rev-by">Bryant</p>
+        </article>
+        <article class="rev-item">
+          <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <h3 class="rev-title">My new go to to start my mornings</h3>
+          <p class="rev-body">The energy is probably my favorite part. It feels really smooth and gradual rather than that sudden coffee rush. I can tell I’m more awake and ready to work, but I don’t get that overly wired feeling I sometimes get from coffee.</p>
+          <p class="rev-by">Alvaro Garcia</p>
+        </article>
+        <article class="rev-item">
+          <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <h3 class="rev-title">So gooood!</h3>
+          <p class="rev-body">The biggest thing I noticed is how I feel afterward. With coffee, I sometimes feel like I need another one a few hours later. With the Mate Latte, I feel like I get a steady boost that carries me through what I’m doing without constantly thinking about my next caffeine fix.</p>
+          <p class="rev-by">Manuela Jurado</p>
+        </article>
+        <article class="rev-item">
+          <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <h3 class="rev-title">The best coffee alternative</h3>
+          <p class="rev-body">I’ve tried matcha a bunch of times, but I could never get into the grassy taste. Mate Latte is much more my style. You get the benefits of yerba mate, but with a creamy vanilla flavor that actually makes me excited to drink it.</p>
+          <p class="rev-by">Samantha</p>
+        </article>
+        <article class="rev-item">
+          <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <h3 class="rev-title">New morning ritual</h3>
+          <p class="rev-body">I’ve been really enjoying the Mate Latte. It has a smooth, creamy taste without feeling too heavy, and it gives me a nice boost of energy without the jitters I usually get from coffee. It’s become an easy choice when I want something that tastes good and keeps me focused throughout the day. Definitely worth trying if you’re looking for a different way to get your caffeine.</p>
+          <p class="rev-by">Bernat Subira</p>
+        </article>
+        <article class="rev-item">
+          <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <h3 class="rev-title">Amazing !</h3>
+          <p class="rev-body">I’ve been drinking coffee for years, and as I’ve gotten older, I’ve been trying to find healthier alternatives that don’t give me the jitters or stain my teeth. Mate has been a great alternative, although I’m not the biggest fan of the earthy taste of the leaf. This Mate Latte, though, is different. Not only is it the perfect substitute without making me jittery, but it also tastes so yummy! I usually drink it with water or almond milk because it genuinely doesn’t need anything else. I’m so glad I found a healthier alternative that I actually enjoy drinking :)</p>
+          <p class="rev-by">Priscilla</p>
+        </article>
+        <article class="rev-item">
+          <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <h3 class="rev-title">New daily addiction</h3>
+          <p class="rev-body">I’ve been drinking yerba mate for years, and this is easily one of my favorite ways to have it. The flavor is smooth, creamy, and balanced without being overly sweet, and you can still taste the mate without it being too bitter or overpowering. It’s become one of those things I genuinely look forward to having in the morning or as an afternoon pick-me-up. Super easy to make, tastes great, and feels like a much better alternative to reaching for another coffee. I’ll definitely be keeping this stocked!</p>
+          <p class="rev-by">M.L.</p>
+        </article>
+        <article class="rev-item">
+          <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <h3 class="rev-title">New Caffeine Staple</h3>
+          <p class="rev-body">Never thought I’d trade in my coffee addiction for a matte latte, but this has officially made it into the rotation. Great flavor and the perfect caffeine boost. I drink mine iced with coconut milk and love it.</p>
+          <p class="rev-by">Katya</p>
+        </article>
+        <article class="rev-item">
+          <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <h3 class="rev-title">Perfect balance</h3>
+          <p class="rev-body">My girlfriend and I can be pretty picky when it comes to how sweet something is, and this absolutely nailed it. Not too sweet, but still tastes amazing. We’ve been drinking it every morning now and love both the taste and how it makes us feel. Definitely part of our morning routine now</p>
+          <p class="rev-by">Jose P.</p>
+        </article>
+        <article class="rev-item">
+          <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <h3 class="rev-title">Love This Product!</h3>
+          <p class="rev-body">This has been such a game changer for getting my caffeine in every day. Tastes super clean and doesn’t give me any jitters or crash afterwards. I also love how easy and quick it is to make!!</p>
+          <p class="rev-by">Sam</p>
+        </article>
       </div>
     </div>
 
     <div class="wrapc">
       <div class="rev-foot fx">
         <a class="btn rev-foot-btn" href="#" data-review>Leave Review</a>
-        <p class="rev-fine">15% off your next order &middot; Takes under a minute</p>
+        <p class="tagline-sub">15% Off Next Order</p>
       </div>
     </div>
   </section>
@@ -1248,6 +1280,31 @@
       // has had a fair chance to load.
       setTimeout(() => { if (video.readyState === 0) markMissing(); }, 3000);
     });
+
+    /* ---------- review rail: advances on its own, like a slideshow ----------
+       Steps one card at a time and wraps at the end. Pauses while someone is
+       hovering, dragging or tabbing through it, and never runs at all if the
+       viewer asked for reduced motion. */
+    (function () {
+      const rail = document.querySelector(".rev-rail");
+      if (!rail) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      let paused = false;
+      ["pointerenter", "pointerdown", "focusin", "touchstart"].forEach(e =>
+        rail.addEventListener(e, () => { paused = true; }, { passive: true }));
+      ["pointerleave", "focusout", "touchend"].forEach(e =>
+        rail.addEventListener(e, () => { paused = false; }, { passive: true }));
+
+      setInterval(() => {
+        if (paused || document.hidden) return;
+        const card = rail.querySelector(".rev-item");
+        if (!card) return;
+        const step = card.getBoundingClientRect().width + parseFloat(getComputedStyle(rail).columnGap || 16);
+        const atEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 4;
+        rail.scrollTo({ left: atEnd ? 0 : rail.scrollLeft + step, behavior: "smooth" });
+      }, 3800);
+    })();
 
     /* ---------- "Leave a review" ----------
        REVIEW_URL must point at the review form of whichever platform issues
