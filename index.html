@@ -381,12 +381,16 @@
     .cmp td.mi .val, .cmp td.mi .mark { color: var(--gold-1); }
     .cmp .mark.n { color: rgba(247,239,224,0.3); }
 
-    /* ================= REVIEW CTA ================= */
-    .rev-card {
-      width: min(620px, 100%); margin: 26px auto 0; text-align: center;
+    /* ================= REVIEWS ================= */
+    .rev-split {
+      display: grid; grid-template-columns: 0.82fr 1.18fr;
+      gap: clamp(18px, 2.6vw, 38px); align-items: start;
+    }
+    .rev-offer {
+      position: relative; text-align: center;
       background: rgba(2,8,5,0.68); backdrop-filter: blur(10px);
       border: 1px solid rgba(236,201,111,0.3); border-radius: 22px;
-      padding: 30px 26px 26px; position: relative;
+      padding: 32px 24px 26px; position: sticky; top: 96px;
     }
     .rev-badge {
       position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
@@ -394,17 +398,49 @@
       font-family: var(--font); font-weight: 700; font-size: 9.5px; letter-spacing: 2px;
       text-transform: uppercase; padding: 4px 14px; border-radius: 100px; white-space: nowrap;
     }
-    .rev-stars { display: flex; justify-content: center; gap: 5px; margin-bottom: 12px; }
-    .rev-stars span { color: var(--gold-1); font-size: 19px; line-height: 1; filter: drop-shadow(0 0 8px rgba(236,201,111,0.35)); }
+    .rev-score { display: grid; gap: 6px; justify-items: center; margin-bottom: 14px; }
+    .rev-stars {
+      color: var(--gold-1); font-size: 18px; letter-spacing: 3px; line-height: 1;
+      filter: drop-shadow(0 0 8px rgba(236,201,111,0.35));
+    }
+    .rev-stars.sm { font-size: 12px; letter-spacing: 2px; }
+    .rev-score-txt {
+      font-family: var(--font); font-weight: 700; font-size: 10px;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--mist);
+    }
     .rev-head {
       font-family: var(--font); font-weight: 900; text-transform: uppercase;
-      font-size: clamp(18px, 2.6vw, 25px); letter-spacing: 1px; color: var(--cream); line-height: 1.15;
+      font-size: clamp(18px, 2.5vw, 25px); letter-spacing: 1px; color: var(--cream); line-height: 1.15;
     }
     .rev-head .gold { color: var(--gold-1); }
     .rev-sub { color: var(--mist); font-size: 13.5px; margin-top: 12px; }
     .rev-sub b { color: var(--cream); font-weight: 700; }
-    .rev-btn { display: inline-block; margin-top: 20px; padding: 13px 32px; text-decoration: none; }
+    .rev-btn { display: inline-block; margin-top: 20px; padding: 13px 30px; text-decoration: none; }
     .rev-fine { font-size: 10.5px; color: rgba(247,239,224,0.5); margin-top: 12px; }
+
+    /* a packed wall rather than a rigid grid, so uneven review lengths
+       don't leave gaps under the short ones */
+    .rev-grid { column-count: 2; column-gap: clamp(12px, 1.6vw, 18px); }
+    .rev-item {
+      break-inside: avoid; -webkit-column-break-inside: avoid;
+      background: rgba(2,8,5,0.6); border: 1px solid rgba(236,201,111,0.16);
+      border-radius: 16px; padding: 16px 18px 14px;
+      margin-bottom: clamp(12px, 1.6vw, 18px);
+      transition: border-color .3s ease, transform .3s cubic-bezier(.2,.7,.3,1);
+    }
+    .rev-item:hover { border-color: rgba(236,201,111,0.42); transform: translateY(-3px); }
+    .rev-title {
+      font-family: var(--font); font-weight: 700; font-size: 13px;
+      color: var(--gold-1); margin-top: 8px; line-height: 1.3; text-transform: none;
+    }
+    .rev-body { color: var(--mist); font-size: 12.5px; line-height: 1.65; margin-top: 7px; }
+    .rev-by {
+      font-family: var(--font); font-weight: 700; font-size: 10px;
+      letter-spacing: 1.6px; text-transform: uppercase; color: rgba(247,239,224,0.5);
+      margin-top: 11px;
+    }
+    .rev-foot { text-align: center; margin-top: clamp(24px, 3vw, 38px); }
+    .rev-foot-btn { display: inline-block; padding: 14px 34px; text-decoration: none; font-size: 13.5px; }
 
     /* ================= BENEFITS (Elevate) ================= */
     .sense { list-style: none; display: grid; gap: 12px; justify-items: start; margin-top: 24px; }
@@ -564,6 +600,10 @@
       .vids { grid-template-columns: 1fr; }
       .vid-media { aspect-ratio: 4 / 5; }
 
+      /* reviews: offer on top, wall beneath it */
+      .rev-split { grid-template-columns: 1fr; gap: 24px; }
+      .rev-offer { position: static; padding: 28px 20px 22px; }
+
       /* stacks; the two side-by-side sections below deliberately do not */
       .mate-split { grid-template-columns: 1fr; gap: 26px; }
       .mate-aside .side-img { width: min(100%, 480px); margin: 0 auto; }
@@ -621,6 +661,8 @@
       .scoop-badge .sb-sm { font-size: 6.5px; letter-spacing: 1px; margin-top: 1px; }
 
       .benefits { grid-template-columns: 1fr; }
+      .rev-grid { column-count: 1; }
+      .rev-foot-btn { padding: 13px 24px; font-size: 12.5px; }
 
       /* table: drop the row captions and tighten, but keep every column */
       .cmp td.feat span { display: none; }
@@ -972,24 +1014,81 @@
   </section>
 
   <!-- ============ 6. LEAVE A REVIEW → 15% OFF ============
-       The discount is NOT automatic yet. It needs a review platform
-       (Judge.me / Loox / Okendo) connected to a Shopify automatic discount.
-       Set REVIEW_URL in the script below to that platform's review form.
+       Reviews below are REAL, pulled from the Judge.me widget metafield on
+       the product (5.00 average across 17 at the time of writing). Do not
+       edit their wording, and do not add invented ones. To refresh, re-read
+       the judgeme.widget metafield on the-original-mate-latte.
+
+       Judge.me marks these data-verified-buyer="false" (collected from store
+       visitors), so no "verified buyer" badge is shown.
+
+       The 15% is NOT automatic yet - it needs a Judge.me coupon rule wired
+       to a Shopify discount. Until then the button sends people to the
+       product page, where the Judge.me widget takes the review.
        ============================================================ -->
-  <section class="block">
-    <div class="wrapc">
-      <div class="rev-card fx">
-        <span class="rev-badge">15% Off Your Next Order</span>
-        <div class="rev-stars" aria-hidden="true">
-          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+  <section class="block" id="reviews">
+    <div class="wrapw">
+      <div class="rev-split">
+
+        <!-- left: the incentive -->
+        <div class="rev-offer fx">
+          <span class="rev-badge">15% Off Your Next Order</span>
+          <div class="rev-score">
+            <span class="rev-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <span class="rev-score-txt">5.0 &middot; 17 reviews</span>
+          </div>
+          <h2 class="rev-head">Tell Us How<br/><span class="gold">You Drink Yours</span></h2>
+          <p class="rev-sub">
+            Hot at 7am? Iced after the gym? Leave a quick review and get
+            <b>15% off your next order</b>.
+          </p>
+          <a class="btn rev-btn" href="#" data-review>Leave A Review</a>
+          <p class="rev-fine">Takes under a minute &middot; One discount per customer</p>
         </div>
-        <h2 class="rev-head">Tell Us How<br/><span class="gold">You Drink Yours</span></h2>
-        <p class="rev-sub">
-          Hot at 7am? Iced after the gym? Leave a review and we'll send you
-          <b>15% off your next order</b> — automatically.
-        </p>
-        <a class="btn rev-btn" href="#" data-review>Leave A Review</a>
-        <p class="rev-fine">Takes under a minute · One discount per customer</p>
+
+        <!-- right: the wall of real reviews -->
+        <div class="rev-grid fx">
+          <article class="rev-item">
+            <span class="rev-stars sm" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <h3 class="rev-title">my little reset time</h3>
+            <p class="rev-body">My afternoon Mate Latte has become my favorite little moment to reset, recharge, and get back into my productive flow. Something cold, creamy, and delicious to sip on while I get back into focus and finish the day strong, without any kind of anxiety or crash later.</p>
+            <p class="rev-by">Diego G</p>
+          </article>
+
+          <article class="rev-item">
+            <span class="rev-stars sm" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <h3 class="rev-title">iced mate latte is a game changer</h3>
+            <p class="rev-body">An iced Mate Latte has completely upgraded my work mornings. It keeps me awake and sharp while giving me something smooth and delicious to sip on. Honestly, my favorite part of starting a busy day.</p>
+            <p class="rev-by">Benjamin C</p>
+          </article>
+
+          <article class="rev-item">
+            <span class="rev-stars sm" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <h3 class="rev-title">Hot or cold, however you want it.</h3>
+            <p class="rev-body">I love that you can have the mate latte hot or cold. I usually make it over ice in the morning when I want something refreshing, but on slower mornings, I’ll make it warm and it feels like a cozy latte. Same great taste, just depends on the mood.</p>
+            <p class="rev-by">Santiago Torre</p>
+          </article>
+
+          <article class="rev-item">
+            <span class="rev-stars sm" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <h3 class="rev-title">Best morning latte I’ve ever had</h3>
+            <p class="rev-body">No jitters, superb taste, not too sweet. Easily best morning drink anyone can have. I’ve never been so wired when I first drank it but I felt truly relaxed. Highly recommend</p>
+            <p class="rev-by">Anonymous</p>
+          </article>
+
+          <article class="rev-item">
+            <span class="rev-stars sm" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <h3 class="rev-title">I love the mate latte!!</h3>
+            <p class="rev-body">Finally, a coffee alternative that doesn’t taste like I’m forcing myself to drink something “healthy.” The Mate Latte is genuinely enjoyable. It’s creamy, smooth, and easy to make, while still giving me the clean caffeine boost I need. I also like that the formula includes ingredients like Lion’s Mane and L-theanine for focus and staying calm.</p>
+            <p class="rev-by">Francisco T</p>
+          </article>
+        </div>
+      </div>
+
+      <!-- below both: through to the product page -->
+      <div class="rev-foot fx">
+        <a class="btn rev-foot-btn" href="#" data-review>Leave A Review &amp; Read All 17</a>
+        <p class="rev-fine">See what everyone else is saying on the product page</p>
       </div>
     </div>
   </section>
@@ -1157,8 +1256,10 @@
        REVIEW_URL must point at the review form of whichever platform issues
        the 15% code (Judge.me / Loox / Okendo). Until it is set, the button
        falls back to the contact page so it is never a dead link. */
-    const REVIEW_URL = "";                                   // ← paste the review form URL
-    const REVIEW_FALLBACK = "https://milonga.life/pages/contact";
+    /* Judge.me is the review app; its widget (and its "Write a review"
+       button) lives on the product page, so that is where both buttons go. */
+    const REVIEW_URL = "https://milonga.life/products/the-original-mate-latte#judgeme_product_reviews";
+    const REVIEW_FALLBACK = "https://milonga.life/products/the-original-mate-latte";
     document.querySelectorAll("[data-review]").forEach(a => {
       a.href = REVIEW_URL || REVIEW_FALLBACK;
       a.target = "_blank";
