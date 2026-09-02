@@ -382,65 +382,74 @@
     .cmp .mark.n { color: rgba(247,239,224,0.3); }
 
     /* ================= REVIEWS ================= */
-    .rev-split {
-      display: grid; grid-template-columns: 0.82fr 1.18fr;
-      gap: clamp(18px, 2.6vw, 38px); align-items: start;
+    /* gold cards on the dark ground, scrolled sideways, edges faded out */
+    .rev-seal {
+      display: inline-grid; place-items: center; gap: 0;
+      width: clamp(96px, 12vw, 124px); aspect-ratio: 1; border-radius: 50%;
+      margin-top: 26px; transform: rotate(-8deg); position: relative; overflow: hidden;
+      background: linear-gradient(145deg, #f6da8a 0%, #e7bd60 55%, #d8a748 100%);
+      color: var(--forest-3); text-align: center; line-height: 1;
+      box-shadow:
+        0 16px 38px rgba(1,18,9,0.55),
+        0 0 30px rgba(236,201,111,0.5),
+        inset 0 2px 3px rgba(255,255,255,0.55),
+        inset 0 -3px 6px rgba(150,105,30,0.45);
     }
-    .rev-offer {
-      position: relative; text-align: center;
-      background: rgba(2,8,5,0.68); backdrop-filter: blur(10px);
-      border: 1px solid rgba(236,201,111,0.3); border-radius: 22px;
-      padding: 32px 24px 26px; position: sticky; top: 96px;
+    .rev-seal::after {
+      content: ""; position: absolute; top: 0; left: -60%; width: 45%; height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,0.65), transparent);
+      transform: skewX(-18deg); animation: sb-sheen 4.2s ease-in-out infinite;
     }
-    .rev-badge {
-      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-      background: linear-gradient(135deg, var(--gold-1), var(--gold-2)); color: var(--forest-3);
-      font-family: var(--font); font-weight: 700; font-size: 9.5px; letter-spacing: 2px;
-      text-transform: uppercase; padding: 4px 14px; border-radius: 100px; white-space: nowrap;
-    }
-    .rev-score { display: grid; gap: 6px; justify-items: center; margin-bottom: 14px; }
-    .rev-stars {
-      color: var(--gold-1); font-size: 18px; letter-spacing: 3px; line-height: 1;
-      filter: drop-shadow(0 0 8px rgba(236,201,111,0.35));
-    }
-    .rev-stars.sm { font-size: 12px; letter-spacing: 2px; }
-    .rev-score-txt {
-      font-family: var(--font); font-weight: 700; font-size: 10px;
-      letter-spacing: 2px; text-transform: uppercase; color: var(--mist);
-    }
-    .rev-head {
-      font-family: var(--font); font-weight: 900; text-transform: uppercase;
-      font-size: clamp(18px, 2.5vw, 25px); letter-spacing: 1px; color: var(--cream); line-height: 1.15;
-    }
-    .rev-head .gold { color: var(--gold-1); }
-    .rev-sub { color: var(--mist); font-size: 13.5px; margin-top: 12px; }
-    .rev-sub b { color: var(--cream); font-weight: 700; }
-    .rev-btn { display: inline-block; margin-top: 20px; padding: 13px 30px; text-decoration: none; }
-    .rev-fine { font-size: 10.5px; color: rgba(247,239,224,0.5); margin-top: 12px; }
+    @media (prefers-reduced-motion: reduce) { .rev-seal::after { animation: none; } }
+    .rev-seal .seal-num { font-family: var(--font); font-weight: 900; font-size: clamp(26px, 3.4vw, 34px); letter-spacing: -.5px; }
+    .rev-seal .seal-txt { font-family: var(--font); font-weight: 700; font-size: clamp(7.5px, .95vw, 9px); letter-spacing: 1.8px; text-transform: uppercase; margin-top: 3px; opacity: .85; }
 
-    /* a packed wall rather than a rigid grid, so uneven review lengths
-       don't leave gaps under the short ones */
-    .rev-grid { column-count: 2; column-gap: clamp(12px, 1.6vw, 18px); }
+    .rev-rail-wrap {
+      margin-top: clamp(26px, 3.4vw, 40px);
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
+      mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
+    }
+    .rev-rail {
+      display: flex; align-items: stretch; gap: clamp(12px, 1.6vw, 20px);
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      padding: 6px clamp(20px, 6vw, 90px) 18px;
+      scrollbar-width: none; -ms-overflow-style: none;
+    }
+    .rev-rail::-webkit-scrollbar { display: none; }
     .rev-item {
-      break-inside: avoid; -webkit-column-break-inside: avoid;
-      background: rgba(2,8,5,0.6); border: 1px solid rgba(236,201,111,0.16);
-      border-radius: 16px; padding: 16px 18px 14px;
-      margin-bottom: clamp(12px, 1.6vw, 18px);
-      transition: border-color .3s ease, transform .3s cubic-bezier(.2,.7,.3,1);
+      flex: 0 0 clamp(220px, 24vw, 290px); scroll-snap-align: center;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      background: linear-gradient(160deg, #f0d18a 0%, #e2b962 52%, #d3a54c 100%);
+      color: var(--forest-3); border-radius: 20px; padding: 22px 20px 18px;
+      box-shadow: 0 14px 34px rgba(1,18,9,0.45);
+      transition: transform .3s cubic-bezier(.2,.7,.3,1), box-shadow .3s ease;
     }
-    .rev-item:hover { border-color: rgba(236,201,111,0.42); transform: translateY(-3px); }
+    .rev-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 44px rgba(1,18,9,0.55), 0 0 26px rgba(236,201,111,0.2);
+    }
+    .rev-stars {
+      color: var(--forest-2); font-size: 14px; letter-spacing: 4px; line-height: 1;
+    }
     .rev-title {
-      font-family: var(--font); font-weight: 700; font-size: 13px;
-      color: var(--gold-1); margin-top: 8px; line-height: 1.3; text-transform: none;
+      font-family: var(--font); font-weight: 700; font-size: 14px;
+      color: var(--forest-3); margin-top: 14px; line-height: 1.3;
     }
-    .rev-body { color: var(--mist); font-size: 12.5px; line-height: 1.65; margin-top: 7px; }
+    /* clamp so every card is the same height; the full text is on the
+       product page, which is where the button below sends people */
+    .rev-body {
+      font-size: 13px; line-height: 1.6; margin-top: 12px; color: #17492b;
+      display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
     .rev-by {
-      font-family: var(--font); font-weight: 700; font-size: 10px;
-      letter-spacing: 1.6px; text-transform: uppercase; color: rgba(247,239,224,0.5);
-      margin-top: 11px;
+      font-family: var(--font); font-weight: 700; font-size: 10.5px;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--forest-2);
+      margin-top: auto; padding-top: 18px;
     }
-    .rev-foot { text-align: center; margin-top: clamp(24px, 3vw, 38px); }
-    .rev-foot-btn { display: inline-block; padding: 14px 34px; text-decoration: none; font-size: 13.5px; }
+    .rev-foot { text-align: center; margin-top: clamp(6px, 1.4vw, 14px); }
+    .rev-foot-btn { display: inline-block; padding: 14px 36px; text-decoration: none; font-size: 13.5px; }
+    .rev-fine { font-size: 11px; color: rgba(247,239,224,0.55); margin-top: 12px; letter-spacing: .3px; }
 
     /* ================= BENEFITS (Elevate) ================= */
     .sense { list-style: none; display: grid; gap: 12px; justify-items: start; margin-top: 24px; }
@@ -600,10 +609,6 @@
       .vids { grid-template-columns: 1fr; }
       .vid-media { aspect-ratio: 4 / 5; }
 
-      /* reviews: offer on top, wall beneath it */
-      .rev-split { grid-template-columns: 1fr; gap: 24px; }
-      .rev-offer { position: static; padding: 28px 20px 22px; }
-
       /* stacks; the two side-by-side sections below deliberately do not */
       .mate-split { grid-template-columns: 1fr; gap: 26px; }
       .mate-aside .side-img { width: min(100%, 480px); margin: 0 auto; }
@@ -661,8 +666,12 @@
       .scoop-badge .sb-sm { font-size: 6.5px; letter-spacing: 1px; margin-top: 1px; }
 
       .benefits { grid-template-columns: 1fr; }
-      .rev-grid { column-count: 1; }
-      .rev-foot-btn { padding: 13px 24px; font-size: 12.5px; }
+      .rev-item { flex-basis: min(78vw, 260px); padding: 18px 16px 15px; }
+      .rev-title { font-size: 13px; }
+      .rev-body { font-size: 12px; -webkit-line-clamp: 7; }
+      .rev-rail { padding-left: 16px; padding-right: 16px; gap: 12px; }
+      .rev-foot-btn { padding: 13px 26px; font-size: 12.5px; }
+      .rev-fine { font-size: 10px; }
 
       /* table: drop the row captions and tighten, but keep every column */
       .cmp td.feat span { display: none; }
@@ -1013,82 +1022,70 @@
     </div>
   </section>
 
-  <!-- ============ 6. LEAVE A REVIEW → 15% OFF ============
-       Reviews below are REAL, pulled from the Judge.me widget metafield on
-       the product (5.00 average across 17 at the time of writing). Do not
-       edit their wording, and do not add invented ones. To refresh, re-read
-       the judgeme.widget metafield on the-original-mate-latte.
+  <!-- ============ 6. GIVE US YOUR THOUGHTS → 15% OFF ============
+       The review cards are REAL, read from the judgeme.widget metafield on
+       the-original-mate-latte (5.00 across 17 at the time of writing). Do not
+       edit their wording and do not add invented ones; to refresh, re-read
+       that metafield. Bodies are clamped to six lines for even card heights -
+       the full text lives on the product page, which is where the button goes.
 
-       Judge.me marks these data-verified-buyer="false" (collected from store
-       visitors), so no "verified buyer" badge is shown.
+       Judge.me records these as collected from store visitors rather than
+       confirmed purchases, so no "verified buyer" badge is shown.
 
-       The 15% is NOT automatic yet - it needs a Judge.me coupon rule wired
-       to a Shopify discount. Until then the button sends people to the
-       product page, where the Judge.me widget takes the review.
+       The 15% is NOT automatic yet: it needs a Judge.me coupon rule tied to
+       a Shopify discount.
        ============================================================ -->
   <section class="block" id="reviews">
-    <div class="wrapw">
-      <div class="rev-split">
-
-        <!-- left: the incentive -->
-        <div class="rev-offer fx">
-          <span class="rev-badge">15% Off Your Next Order</span>
-          <div class="rev-score">
-            <span class="rev-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-            <span class="rev-score-txt">5.0 &middot; 17 reviews</span>
-          </div>
-          <h2 class="rev-head">Tell Us How<br/><span class="gold">You Drink Yours</span></h2>
-          <p class="rev-sub">
-            Hot at 7am? Iced after the gym? Leave a quick review and get
-            <b>15% off your next order</b>.
-          </p>
-          <a class="btn rev-btn" href="#" data-review>Leave A Review</a>
-          <p class="rev-fine">Takes under a minute &middot; One discount per customer</p>
-        </div>
-
-        <!-- right: the wall of real reviews -->
-        <div class="rev-grid fx">
-          <article class="rev-item">
-            <span class="rev-stars sm" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-            <h3 class="rev-title">my little reset time</h3>
-            <p class="rev-body">My afternoon Mate Latte has become my favorite little moment to reset, recharge, and get back into my productive flow. Something cold, creamy, and delicious to sip on while I get back into focus and finish the day strong, without any kind of anxiety or crash later.</p>
-            <p class="rev-by">Diego G</p>
-          </article>
-
-          <article class="rev-item">
-            <span class="rev-stars sm" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-            <h3 class="rev-title">iced mate latte is a game changer</h3>
-            <p class="rev-body">An iced Mate Latte has completely upgraded my work mornings. It keeps me awake and sharp while giving me something smooth and delicious to sip on. Honestly, my favorite part of starting a busy day.</p>
-            <p class="rev-by">Benjamin C</p>
-          </article>
-
-          <article class="rev-item">
-            <span class="rev-stars sm" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-            <h3 class="rev-title">Hot or cold, however you want it.</h3>
-            <p class="rev-body">I love that you can have the mate latte hot or cold. I usually make it over ice in the morning when I want something refreshing, but on slower mornings, I’ll make it warm and it feels like a cozy latte. Same great taste, just depends on the mood.</p>
-            <p class="rev-by">Santiago Torre</p>
-          </article>
-
-          <article class="rev-item">
-            <span class="rev-stars sm" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-            <h3 class="rev-title">Best morning latte I’ve ever had</h3>
-            <p class="rev-body">No jitters, superb taste, not too sweet. Easily best morning drink anyone can have. I’ve never been so wired when I first drank it but I felt truly relaxed. Highly recommend</p>
-            <p class="rev-by">Anonymous</p>
-          </article>
-
-          <article class="rev-item">
-            <span class="rev-stars sm" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-            <h3 class="rev-title">I love the mate latte!!</h3>
-            <p class="rev-body">Finally, a coffee alternative that doesn’t taste like I’m forcing myself to drink something “healthy.” The Mate Latte is genuinely enjoyable. It’s creamy, smooth, and easy to make, while still giving me the clean caffeine boost I need. I also like that the formula includes ingredients like Lion’s Mane and L-theanine for focus and staying calm.</p>
-            <p class="rev-by">Francisco T</p>
-          </article>
-        </div>
+    <div class="wrapc">
+      <h2 class="act-title fx">Give Us<br/><span class="gold">Your Thoughts</span></h2>
+      <p class="tagline-sub fx">Unlock 15% Off Your Next Order</p>
+      <div class="fx">
+        <span class="rev-seal" role="img" aria-label="15 percent off your next order">
+          <span class="seal-num">15%</span>
+          <span class="seal-txt">Off Next Order</span>
+        </span>
       </div>
+    </div>
 
-      <!-- below both: through to the product page -->
+    <div class="rev-rail-wrap fx">
+      <div class="rev-rail" role="region" aria-label="Customer reviews">
+        <article class="rev-item">
+          <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <h3 class="rev-title">my little reset time</h3>
+          <p class="rev-body">My afternoon Mate Latte has become my favorite little moment to reset, recharge, and get back into my productive flow. Something cold, creamy, and delicious to sip on while I get back into focus and finish the day strong, without any kind of anxiety or crash later.</p>
+          <p class="rev-by">Diego G</p>
+        </article>
+        <article class="rev-item">
+          <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <h3 class="rev-title">iced mate latte is a game changer</h3>
+          <p class="rev-body">An iced Mate Latte has completely upgraded my work mornings. It keeps me awake and sharp while giving me something smooth and delicious to sip on. Honestly, my favorite part of starting a busy day.</p>
+          <p class="rev-by">Benjamin C</p>
+        </article>
+        <article class="rev-item">
+          <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <h3 class="rev-title">Hot or cold, however you want it.</h3>
+          <p class="rev-body">I love that you can have the mate latte hot or cold. I usually make it over ice in the morning when I want something refreshing, but on slower mornings, I’ll make it warm and it feels like a cozy latte. Same great taste, just depends on the mood.</p>
+          <p class="rev-by">Santiago Torre</p>
+        </article>
+        <article class="rev-item">
+          <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <h3 class="rev-title">Best morning latte I’ve ever had</h3>
+          <p class="rev-body">No jitters, superb taste, not too sweet. Easily best morning drink anyone can have. I’ve never been so wired when I first drank it but I felt truly relaxed. Highly recommend</p>
+          <p class="rev-by">Anonymous</p>
+        </article>
+        <article class="rev-item">
+          <span class="rev-stars" aria-label="5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <h3 class="rev-title">I love the mate latte!!</h3>
+          <p class="rev-body">Finally, a coffee alternative that doesn’t taste like I’m forcing myself to drink something “healthy.” The Mate Latte is genuinely enjoyable. It’s creamy, smooth, and easy to make, while still giving me the clean caffeine boost I need. I also like that the formula includes ingredients like Lion’s Mane and L-theanine for focus and staying calm.</p>
+          <p class="rev-by">Francisco T</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="wrapc">
       <div class="rev-foot fx">
-        <a class="btn rev-foot-btn" href="#" data-review>Leave A Review &amp; Read All 17</a>
-        <p class="rev-fine">See what everyone else is saying on the product page</p>
+        <a class="btn rev-foot-btn" href="#" data-review>Leave Review</a>
+        <p class="rev-fine">15% off your next order &middot; Takes under a minute</p>
       </div>
     </div>
   </section>
