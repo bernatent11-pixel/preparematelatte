@@ -238,14 +238,14 @@
 
     /* yerba mate section: copy + benefits + table on the left, product right */
     .mate-split {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: clamp(20px, 3vw, 46px); align-items: start; text-align: left;
+      display: grid; grid-template-columns: 0.86fr 1.14fr;
+      gap: clamp(20px, 3vw, 40px); align-items: center; text-align: left;
     }
     /* right column: the product shot runs the full column width so it carries
        the same visual weight as the copy, with the table stacked under it */
     .mate-aside { display: grid; gap: clamp(14px, 2vw, 22px); }
-    .mate-aside .side-img { width: 100%; }
-    .mate-aside .cmp-wrap.tight { margin-top: 0; }
+    /* runs past the column edge so the bag reads big; body clips the overflow */
+    .mate-aside .side-img { width: calc(100% + 5vw); max-width: none; margin-right: -5vw; }
     .mate-copy .act-title { font-size: clamp(28px, 4.4vw, 44px); }
     .mate-copy .edu-copy { margin-top: 22px; }
     .mini-head {
@@ -346,32 +346,45 @@
       gap: clamp(20px, 3vw, 44px); align-items: center; text-align: left;
     }
     .ing-split .side-media { position: relative; }
-    .ing-split .side-img { width: 100%; }
+    /* the scoop shot bleeds right so the hand runs toward the page edge */
+    .ing-split .side-img { width: calc(100% + 5vw); max-width: none; margin-right: -5vw; }
+    .ing-copy .act-title { font-size: clamp(28px, 4.2vw, 46px); }
+    .ing-copy .tagline-sub { margin-left: 0; margin-right: 0; letter-spacing: 3px; }
+    .ing-copy .ing-list { margin-top: 30px; }
+    .ing-copy .steps { justify-content: flex-start; }
 
     /* comparison table (identical to the sales page) */
     .cmp-wrap {
       margin-top: 26px; background: rgba(2,8,5,0.68); backdrop-filter: blur(10px);
       border: 1px solid rgba(236,201,111,0.25); border-radius: 16px; padding: 8px 12px; overflow-x: auto;
     }
-    table.cmp { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .cmp th, .cmp td { padding: 9px 7px; text-align: center; border-top: 1px solid rgba(247,239,224,0.08); }
+    table.cmp { width: 100%; border-collapse: collapse; }
+    .cmp th, .cmp td { padding: 12px 8px; text-align: center; border-top: 1px solid rgba(247,239,224,0.08); }
     .cmp thead th {
       border-top: none; font-family: var(--font); font-weight: 700; font-size: 10px;
-      letter-spacing: 1.2px; text-transform: uppercase; color: var(--mist);
-      padding: 10px 4px 8px; line-height: 1.3; vertical-align: bottom;
+      letter-spacing: 1.4px; text-transform: uppercase; color: var(--mist);
+      padding: 12px 6px 10px; line-height: 1.3; vertical-align: bottom;
     }
-    .cmp thead th.mi-col { color: var(--gold-1); font-size: 11px; }
-    .cmp td { vertical-align: top; }
-    .cmp td.feat { text-align: left; width: 26%; }
-    .cmp td.feat b { display: block; font-family: var(--font); font-weight: 700; font-size: 12.5px; color: var(--cream); line-height: 1.3; }
-    .cmp td.feat span { display: block; font-size: 9.5px; color: var(--mist); line-height: 1.35; margin-top: 1px; }
+    .cmp thead th.mi-col { color: var(--gold-1); }
+    .cmp td { vertical-align: middle; }
+    .cmp td.feat { text-align: left; width: 27%; }
+    .cmp td.feat b {
+      display: block; font-family: var(--font); font-weight: 700;
+      font-size: 12.5px; color: var(--cream); line-height: 1.3;
+    }
+    .cmp td.feat span {
+      display: block; font-size: 10px; color: var(--mist);
+      line-height: 1.35; margin-top: 2px; font-weight: 400;
+    }
     .cmp td.mi { background: rgba(236,201,111,0.08); }
-    .cmp .mark { display: block; font-family: var(--font); font-weight: 700; font-size: 13px; line-height: 1.2; }
-    .cmp .mark.y { color: var(--gold-1); }
-    .cmp .mark.n { color: rgba(247,239,224,0.28); }
-    .cmp .mark.v { color: #d98b3d; font-size: 11px; letter-spacing: .5px; text-transform: uppercase; padding-top: 2px; }
-    .cmp .d { display: block; font-size: 9.5px; color: var(--mist); line-height: 1.35; margin-top: 2px; }
-    .cmp td.mi .d { color: var(--gold-1); }
+    /* word values and marks share one size and weight so rows read evenly */
+    .cmp .val, .cmp .mark {
+      display: block; font-family: var(--font); font-weight: 700;
+      font-size: 12px; line-height: 1.35; color: var(--mist);
+    }
+    .cmp .mark { font-size: 15px; }
+    .cmp td.mi .val, .cmp td.mi .mark { color: var(--gold-1); }
+    .cmp .mark.n { color: rgba(247,239,224,0.3); }
 
     /* ================= REVIEW CTA ================= */
     .rev-card {
@@ -534,38 +547,74 @@
     footer .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
     .copy-sm { color: rgba(247,239,224,0.4); font-size: 13px; }
 
-    /* ================= RESPONSIVE ================= */
-    @media (max-width: 860px) {
+    /* ================= RESPONSIVE =================
+       Three steps, so the page stays structured at every width:
+       <=1024px  laptops and half-screen windows: drop the edge bleeds
+       <=900px   every two-column block stacks
+       <=640px   phones: typography and control sizing
+       ============================================== */
+
+    /* laptops / split-screen windows: images stop running past the column,
+       which is what made them crowd the copy at these widths */
+    @media (max-width: 1024px) {
+      .mate-aside .side-img,
+      .ing-split .side-img { width: 100%; margin-right: 0; }
+      .mate-split { grid-template-columns: 1fr 1fr; gap: 26px; }
+      .ing-copy .act-title { font-size: clamp(26px, 4vw, 36px); }
+      .steps { gap: 10px; }
+      .step-i svg { width: 42px; height: 42px; }
+      .scoop-badge { padding: 11px 20px; }
+    }
+
+    /* one width where every split becomes a single column */
+    @media (max-width: 900px) {
       .vids { grid-template-columns: 1fr; }
       .vid-media { aspect-ratio: 4 / 5; }
-      /* stack the yerba section: copy, then the product shot */
-      .mate-split { grid-template-columns: 1fr; gap: 28px; }
-      .mate-aside .side-img { width: min(100%, 460px); margin: 0 auto; }
-      /* ingredients: copy first, scoop shot below it */
-      .ing-split { grid-template-columns: 1fr; gap: 30px; }
+
+      .split { grid-template-columns: 1fr !important; gap: 30px; padding: 0 20px; text-align: center; }
+      .split .hero-benefits { margin: 0 !important; text-align: center; }
+      .split .side-media { order: -1; }
+      .split .side-img { width: min(100%, 440px); margin: 0 auto; }
+      .split .sense { justify-items: start; width: fit-content; margin: 22px auto 0; }
+
+      .mate-split { grid-template-columns: 1fr; gap: 26px; }
+      .mate-aside .side-img { width: min(100%, 480px); margin: 0 auto; }
+
+      .ing-split { grid-template-columns: 1fr; gap: 28px; }
       .ing-split .side-img { width: min(100%, 520px); margin: 0 auto; }
-      .steps { flex-wrap: wrap; row-gap: 14px; }
-      .scoop-badge { padding: 11px 20px; top: 3%; left: 40%; }
+      .steps { flex-wrap: wrap; row-gap: 16px; }
+      .scoop-badge { top: 3%; left: 40%; }
     }
+
+    /* phones */
     @media (max-width: 640px) {
       nav .logo .logo-img { height: 62px; }
       nav.scrolled .logo .logo-img { height: 42px; }
       .hero { padding: 124px 0 26px; }
       .act-title { font-size: clamp(26px, 8vw, 34px); }
+      .ing-copy .act-title { font-size: clamp(24px, 7.4vw, 32px); }
       .block { padding: 40px 0; }
-      .glass { padding: 20px 16px; }
-      .split { grid-template-columns: 1fr !important; gap: 32px; padding: 0 20px; text-align: center; }
-      .split .hero-benefits { margin: 0 !important; text-align: center; }
-      .side-media { order: -1; }
-      .side-img { width: min(100%, 460px); margin: 0 auto; }
-      .split .sense { justify-items: start; width: fit-content; margin: 22px auto 0; }
+      .tagline-sub, .ing-copy .tagline-sub { letter-spacing: 2.4px; }
+
       .sense li { font-size: 15px; gap: 10px; }
       .sense li::before { width: 17px; height: 21px; }
-      .ing-list { width: fit-content; margin: 24px auto 0; }
       .ing-big { font-size: 17px; }
-      .cmp .d, .cmp td.feat span { display: none; }
-      .cmp td.feat b { font-size: 11px; }
-      .cmp thead th { font-size: 9px; }
+      .benefits { grid-template-columns: 1fr; }
+
+      /* table: drop the row captions and tighten, but keep every column */
+      .cmp td.feat span { display: none; }
+      .cmp td.feat b { font-size: 11.5px; }
+      .cmp td.feat { width: 26%; }
+      .cmp thead th { font-size: 9px; letter-spacing: 1px; }
+      .cmp th, .cmp td { padding: 10px 4px; }
+      .cmp .val { font-size: 10.5px; }
+      .cmp .mark { font-size: 14px; }
+
+      .steps { gap: 8px; }
+      .step-i svg { width: 38px; height: 38px; }
+      .step-i .lbl { font-size: 10px; letter-spacing: 1.8px; }
+      .scoop-badge { padding: 9px 16px; top: 2%; left: 38%; }
+
       .buy-options { gap: 8px; grid-template-columns: 1fr 1.12fr; }
       .opt.featured { transform: none; padding: 14px 8px; }
       .opt.featured:hover { transform: translateY(-4px); }
@@ -711,9 +760,8 @@
           <p class="tagline-sub">Milonga, Rooted In An Ancient Ritual</p>
 
           <div class="edu-copy">
-            <p>Yerba mate is a naturally caffeinated tea from South America, enjoyed for generations across Argentina, Uruguay, Paraguay, and Brazil. It’s part of everyday life, offering smooth, steady energy and mental clarity, without the overstimulated feeling of other caffeine sources, while naturally providing antioxidants to support your health.</p>
-            <p class="pull">But mate is about more than energy.</p>
-            <p>It’s a ritual of slowing down and being present. You can enjoy it alone as a moment to reset, or pass it around with friends while conversations unfold. The gourd moves from one person to the next, creating a simple moment of connection, balance, and community. In a world that’s always rushing, mate reminds you to slow down, share the moment, and enjoy it.</p>
+            <p>Yerba mate is a naturally caffeinated tea enjoyed for generations in South America. It’s part of everyday life, offering smooth, steady energy and mental clarity, with natural antioxidants to support your health.</p>
+            <p>Mate is more than a tea… it’s a ritual of slowing down, being present, and enjoying it as a moment to reset or share it with others, one sip and conversation at a time. In a world that’s always rushing, mate reminds you to slow down, share the moment, and enjoy it.</p>
           </div>
 
           <h3 class="mini-head">Benefits Of Yerba Mate Tea</h3>
@@ -758,47 +806,49 @@
             </tr>
           </thead>
           <tbody>
+            <!-- Every row is either all words or all marks - never both in the
+                 same row - so the eye can scan one column straight down. -->
             <tr>
               <td class="feat"><b>Caffeine</b><span>Per cup</span></td>
-              <td class="mi"><span class="mark y">~80mg</span></td>
-              <td><span class="mark v">~95mg</span></td>
-              <td><span class="mark v">~70mg</span></td>
-              <td><span class="mark v">Varies</span><span class="d">Coffee-based</span></td>
+              <td class="mi"><span class="val">~80mg</span></td>
+              <td><span class="val">~95mg</span></td>
+              <td><span class="val">~70mg</span></td>
+              <td><span class="val">Varies</span></td>
             </tr>
             <tr>
               <td class="feat"><b>Energy curve</b><span>How the lift behaves</span></td>
-              <td class="mi"><span class="mark y">✓</span><span class="d">Gradual, 4–6 hrs</span></td>
-              <td><span class="mark n">✗</span><span class="d">Spike then crash</span></td>
-              <td><span class="mark y">✓</span><span class="d">Smooth</span></td>
-              <td><span class="mark v">Varies</span><span class="d">Follows the base</span></td>
-            </tr>
-            <tr>
-              <td class="feat"><b>Theobromine</b><span>Widens and softens the lift</span></td>
-              <td class="mi"><span class="mark y">✓</span><span class="d">Naturally present</span></td>
-              <td><span class="mark n">✗</span><span class="d">Trace only</span></td>
-              <td><span class="mark n">✗</span></td>
-              <td><span class="mark n">✗</span></td>
-            </tr>
-            <tr>
-              <td class="feat"><b>Antioxidants</b><span>Polyphenols &amp; saponins</span></td>
-              <td class="mi"><span class="mark y">✓</span><span class="d">High</span></td>
-              <td><span class="mark y">✓</span><span class="d">Moderate</span></td>
-              <td><span class="mark y">✓</span><span class="d">Catechins</span></td>
-              <td><span class="mark v">Varies</span></td>
-            </tr>
-            <tr>
-              <td class="feat"><b>Vitamins &amp; minerals</b><span>Beyond the caffeine</span></td>
-              <td class="mi"><span class="mark y">✓</span><span class="d">B vitamins, magnesium, potassium</span></td>
-              <td><span class="mark n">✗</span><span class="d">Minimal</span></td>
-              <td><span class="mark y">✓</span><span class="d">Some</span></td>
-              <td><span class="mark n">✗</span><span class="d">Minimal</span></td>
+              <td class="mi"><span class="val">Gradual, 4&ndash;6 hrs</span></td>
+              <td><span class="val">Spike, then crash</span></td>
+              <td><span class="val">Smooth</span></td>
+              <td><span class="val">Follows the base</span></td>
             </tr>
             <tr>
               <td class="feat"><b>Jitters</b><span>Typical experience</span></td>
-              <td class="mi"><span class="mark y">Rare</span></td>
-              <td><span class="mark n">Common</span></td>
-              <td><span class="mark y">Rare</span></td>
-              <td><span class="mark v">Depends</span><span class="d">On the base</span></td>
+              <td class="mi"><span class="val">Rare</span></td>
+              <td><span class="val">Common</span></td>
+              <td><span class="val">Rare</span></td>
+              <td><span class="val">Depends</span></td>
+            </tr>
+            <tr>
+              <td class="feat"><b>Antioxidants</b><span>Polyphenols &amp; saponins</span></td>
+              <td class="mi"><span class="val">High</span></td>
+              <td><span class="val">Moderate</span></td>
+              <td><span class="val">High</span></td>
+              <td><span class="val">Varies</span></td>
+            </tr>
+            <tr>
+              <td class="feat"><b>Theobromine</b><span>Widens and softens the lift</span></td>
+              <td class="mi"><span class="mark y">&#10003;</span></td>
+              <td><span class="mark n">&#10007;</span></td>
+              <td><span class="mark n">&#10007;</span></td>
+              <td><span class="mark n">&#10007;</span></td>
+            </tr>
+            <tr>
+              <td class="feat"><b>Vitamins &amp; minerals</b><span>B vitamins, magnesium, potassium</span></td>
+              <td class="mi"><span class="mark y">&#10003;</span></td>
+              <td><span class="mark n">&#10007;</span></td>
+              <td><span class="mark y">&#10003;</span></td>
+              <td><span class="mark n">&#10007;</span></td>
             </tr>
           </tbody>
         </table>
@@ -812,15 +862,13 @@
        between the bag and the hand.
        ============================================================ -->
   <section class="block">
-    <div class="wrapc" style="width:min(1120px, 100% - 40px)">
-      <h2 class="act-title fx">Where Tradition<br/><span class="gold">Meets Innovation</span></h2>
-      <p class="tagline-sub wide fx">Yerba Mate Reimagined As A Creamy, Functional Latte For Your Daily Ritual</p>
-    </div>
-
-    <div class="wrapw" style="margin-top:34px">
+    <div class="wrapw">
       <div class="ing-split">
         <div class="ing-copy fx">
-          <div class="ing-list" style="margin-top:0">
+          <h2 class="act-title">Where Tradition<br/><span class="gold">Meets Innovation</span></h2>
+          <p class="tagline-sub">Yerba Mate Reimagined As A Creamy, Functional Latte</p>
+
+          <div class="ing-list">
             <div class="ing-row">
               <span class="ing-big">100mg Yerba Mate</span>
               <span class="ing-sub">Clean, sustained energy &amp; rich antioxidants.</span>
