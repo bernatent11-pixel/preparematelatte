@@ -238,9 +238,14 @@
 
     /* yerba mate section: copy + benefits + table on the left, product right */
     .mate-split {
-      display: grid; grid-template-columns: 1.12fr 0.88fr;
-      gap: clamp(20px, 3vw, 46px); align-items: center; text-align: left;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: clamp(20px, 3vw, 46px); align-items: start; text-align: left;
     }
+    /* right column: the product shot runs the full column width so it carries
+       the same visual weight as the copy, with the table stacked under it */
+    .mate-aside { display: grid; gap: clamp(14px, 2vw, 22px); }
+    .mate-aside .side-img { width: 100%; }
+    .mate-aside .cmp-wrap.tight { margin-top: 0; }
     .mate-copy .act-title { font-size: clamp(28px, 4.4vw, 44px); }
     .mate-copy .edu-copy { margin-top: 22px; }
     .mini-head {
@@ -483,10 +488,9 @@
     @media (max-width: 860px) {
       .vids { grid-template-columns: 1fr; }
       .vid-media { aspect-ratio: 4 / 5; }
-      /* stack the yerba section, product shot first */
+      /* stack the yerba section: copy, then the shot with its table under it */
       .mate-split { grid-template-columns: 1fr; gap: 28px; }
-      .mate-split .side-media { order: -1; }
-      .mate-split .side-img { width: min(100%, 420px); margin: 0 auto; }
+      .mate-aside .side-img { width: min(100%, 460px); margin: 0 auto; }
     }
     @media (max-width: 640px) {
       nav .logo .logo-img { height: 62px; }
@@ -590,7 +594,7 @@
           </div>
 
           <div class="vid-media" data-video>
-            <video controls playsinline preload="metadata" poster="assets/poster.jpg">
+            <video controls playsinline preload="metadata" poster="assets/poster-hot.jpg">
               <source src="assets/video/hot.mp4" type="video/mp4" />
             </video>
             <div class="vid-fallback">
@@ -621,7 +625,7 @@
           </div>
 
           <div class="vid-media" data-video>
-            <video controls playsinline preload="metadata" poster="assets/poster.jpg">
+            <video controls playsinline preload="metadata" poster="assets/poster-iced.jpg">
               <source src="assets/video/iced.mp4" type="video/mp4" />
             </video>
             <div class="vid-fallback">
@@ -652,9 +656,9 @@
           <p class="tagline-sub">300 Years Of Daily Ritual</p>
 
           <div class="edu-copy">
-            <p>Yerba mate is the leaf of a South American holly tree, dried and steeped for centuries across Argentina, Uruguay, Paraguay and southern Brazil. It has never really been a health trend there — <b>it is simply how people start the day, and how they share one.</b></p>
-            <p class="pull">It isn't tea. It isn't coffee. It behaves like neither.</p>
-            <p>Mate carries caffeine for the lift, <b>theobromine</b> to widen and soften that lift, and naturally occurring antioxidants. Coffee gives you the first of those on its own — which is exactly why it spikes hard and drops just as hard. Mate climbs gently, holds for hours, and lets you back down without the crash.</p>
+            <p>Yerba mate is the leaf of a South American holly tree, dried and steeped for centuries across Argentina, Uruguay, Paraguay, and southern Brazil. It’s not a health trend there, it’s part of everyday life. Naturally caffeinated and rich in antioxidants, mate gives you a unique kind of energy: smooth, steady, and clear, helping you feel awake and mentally clear without the overstimulated feeling of other caffeine sources. It’s a simple way to start your day right, giving your mind clarity, your body a natural boost, and your health the benefits of a plant rich in antioxidants.</p>
+            <p class="pull">But mate is about more than energy.</p>
+            <p>It’s a ritual of slowing down and being present. You can enjoy it alone as a moment to reset, or pass it around with friends while conversations unfold. The gourd moves from one person to the next, creating a simple moment of connection, balance, and community. In a world that’s always rushing, mate reminds you to slow down, share the moment, and enjoy it.</p>
           </div>
 
           <h3 class="mini-head">Benefits Of Yerba Mate Tea</h3>
@@ -668,6 +672,13 @@
             <li>Boosts the immune system</li>
             <li>Mood enhancer</li>
           </ul>
+        </div>
+
+        <!-- right column: product shot, then the comparison beneath it -->
+        <div class="mate-aside fx">
+          <div class="side-media">
+            <img class="side-img" src="assets/yerba-bag.png" alt="Milonga loose leaf yerba mate pouring from the bag" />
+          </div>
 
           <!-- the leaf itself vs the other three, before the product-level
                comparison in the next section -->
@@ -734,10 +745,6 @@
             These statements have not been evaluated by the Food and Drug Administration.
             This product is not intended to diagnose, treat, cure or prevent any disease.
           </p>
-        </div>
-
-        <div class="side-media fx">
-          <img class="side-img" src="assets/yerba-bag.png" alt="Milonga loose leaf yerba mate pouring from the bag" />
         </div>
       </div>
     </div>
