@@ -274,10 +274,6 @@
     .cmp-wrap.tight table.cmp { font-size: 12px; }
     .cmp-wrap.tight .cmp td.feat { width: 30%; }
     .cmp-wrap.tight .cmp thead th { font-size: 9.5px; }
-    .claims-note {
-      margin-top: 14px; font-size: 10px; line-height: 1.55;
-      color: rgba(247,239,224,0.42);
-    }
 
     .ing-list { display: grid; gap: 18px; margin-top: 26px; text-align: left; }
     .ing-row { display: grid; gap: 3px; transition: transform .3s cubic-bezier(.2,.7,.3,1); }
@@ -297,6 +293,60 @@
       filter: drop-shadow(0 0 8px rgba(236,201,111,0.4));
     }
     .ing-sub { color: var(--cream); font-weight: 400; font-size: clamp(13px, 1.6vw, 15px); padding-left: 35px; }
+
+    /* longer section subtitles need tighter tracking than the short ones */
+    .tagline-sub.wide { letter-spacing: 2.6px; max-width: 34em; margin-left: auto; margin-right: auto; }
+
+    /* ---- scoop → whisk → enjoy, branching to hot / iced ---- */
+    .steps { display: flex; align-items: center; gap: clamp(8px, 3vw, 26px); margin-top: 26px; }
+    .step-i { display: grid; justify-items: center; gap: 9px; transition: transform .3s cubic-bezier(.2,.7,.3,1); }
+    .step-i:hover { transform: translateY(-5px) scale(1.1); }
+    .step-i svg { width: 50px; height: 50px; display: block; filter: drop-shadow(0 0 10px rgba(236,201,111,0.25)); transition: filter .3s ease; }
+    .step-i:hover svg { filter: drop-shadow(0 0 18px rgba(236,201,111,0.6)); }
+    .step-i .lbl { font-family: var(--font); font-weight: 700; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--cream); }
+    .step-arrow { color: var(--gold-2); font-size: 20px; font-weight: 700; padding-bottom: 22px; }
+    .steps-note {
+      margin-top: 18px; font-family: var(--font); font-weight: 700;
+      font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold-2);
+    }
+    .branch { display: grid; gap: 12px; margin-left: 2px; }
+    .branch-row { display: flex; align-items: center; gap: 9px; }
+    .branch-arrow { color: var(--gold-2); font-size: 19px; font-weight: 700; line-height: 1; }
+    .step-i.mini svg { width: 34px; height: 34px; }
+    .step-i.mini .lbl { font-size: 10px; }
+
+    /* ---- gold "per serving" callout, floated between the bag and the hand ---- */
+    .scoop-badge {
+      position: absolute; z-index: 3; top: 9%; left: 43%;
+      transform: rotate(-6deg);
+      background: linear-gradient(145deg, #f6da8a 0%, #e7bd60 55%, #d8a748 100%);
+      color: #0c3b22; text-align: center; line-height: 1.1;
+      padding: 15px 30px; border-radius: 999px;
+      box-shadow:
+        0 16px 38px rgba(1,18,9,0.55),
+        0 0 26px rgba(236,201,111,0.55),
+        inset 0 2px 3px rgba(255,255,255,0.55),
+        inset 0 -3px 6px rgba(150,105,30,0.45);
+      overflow: hidden;
+    }
+    .scoop-badge::after {
+      content: ""; position: absolute; top: 0; left: -60%; width: 45%; height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,0.65), transparent);
+      transform: skewX(-18deg);
+      animation: sb-sheen 4.2s ease-in-out infinite;
+    }
+    @keyframes sb-sheen { 0%, 62% { left: -60%; } 100% { left: 130%; } }
+    @media (prefers-reduced-motion: reduce) { .scoop-badge::after { animation: none; } }
+    .scoop-badge .sb-big { display: block; font-weight: 900; font-size: clamp(15px, 1.55vw, 21px); letter-spacing: .4px; }
+    .scoop-badge .sb-sm  { display: block; font-weight: 700; font-size: clamp(10px, 1vw, 13px); letter-spacing: 2.5px; margin-top: 3px; opacity: .82; }
+
+    /* ---- ingredients split: copy left, scoop shot right ---- */
+    .ing-split {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: clamp(20px, 3vw, 44px); align-items: center; text-align: left;
+    }
+    .ing-split .side-media { position: relative; }
+    .ing-split .side-img { width: 100%; }
 
     /* comparison table (identical to the sales page) */
     .cmp-wrap {
@@ -488,9 +538,14 @@
     @media (max-width: 860px) {
       .vids { grid-template-columns: 1fr; }
       .vid-media { aspect-ratio: 4 / 5; }
-      /* stack the yerba section: copy, then the shot with its table under it */
+      /* stack the yerba section: copy, then the product shot */
       .mate-split { grid-template-columns: 1fr; gap: 28px; }
       .mate-aside .side-img { width: min(100%, 460px); margin: 0 auto; }
+      /* ingredients: copy first, scoop shot below it */
+      .ing-split { grid-template-columns: 1fr; gap: 30px; }
+      .ing-split .side-img { width: min(100%, 520px); margin: 0 auto; }
+      .steps { flex-wrap: wrap; row-gap: 14px; }
+      .scoop-badge { padding: 11px 20px; top: 3%; left: 40%; }
     }
     @media (max-width: 640px) {
       nav .logo .logo-img { height: 62px; }
@@ -653,10 +708,10 @@
       <div class="mate-split">
         <div class="mate-copy fx">
           <h2 class="act-title">What Is<br/><span class="gold">Yerba Mate?</span></h2>
-          <p class="tagline-sub">300 Years Of Daily Ritual</p>
+          <p class="tagline-sub">Milonga, Rooted In An Ancient Ritual</p>
 
           <div class="edu-copy">
-            <p>Yerba mate is the leaf of a South American holly tree, dried and steeped for centuries across Argentina, Uruguay, Paraguay, and southern Brazil. It’s not a health trend there, it’s part of everyday life. Naturally caffeinated and rich in antioxidants, mate gives you a unique kind of energy: smooth, steady, and clear, helping you feel awake and mentally clear without the overstimulated feeling of other caffeine sources. It’s a simple way to start your day right, giving your mind clarity, your body a natural boost, and your health the benefits of a plant rich in antioxidants.</p>
+            <p>Yerba mate is a naturally caffeinated tea from South America, enjoyed for generations across Argentina, Uruguay, Paraguay, and Brazil. It’s part of everyday life, offering smooth, steady energy and mental clarity, without the overstimulated feeling of other caffeine sources, while naturally providing antioxidants to support your health.</p>
             <p class="pull">But mate is about more than energy.</p>
             <p>It’s a ritual of slowing down and being present. You can enjoy it alone as a moment to reset, or pass it around with friends while conversations unfold. The gourd moves from one person to the next, creating a simple moment of connection, balance, and community. In a world that’s always rushing, mate reminds you to slow down, share the moment, and enjoy it.</p>
           </div>
@@ -680,71 +735,7 @@
             <img class="side-img" src="assets/yerba-bag.png" alt="Milonga loose leaf yerba mate pouring from the bag" />
           </div>
 
-          <!-- the leaf itself vs the other three, before the product-level
-               comparison in the next section -->
-          <div class="cmp-wrap tight">
-            <table class="cmp">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th class="mi-col">Yerba Mate</th>
-                  <th>Coffee</th>
-                  <th>Matcha</th>
-                  <th>Mushroom<br/>Coffee</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="feat"><b>Caffeine</b><span>Per cup</span></td>
-                  <td class="mi"><span class="mark y">~80mg</span></td>
-                  <td><span class="mark v">~95mg</span></td>
-                  <td><span class="mark v">~70mg</span></td>
-                  <td><span class="mark v">Varies</span><span class="d">Coffee-based</span></td>
-                </tr>
-                <tr>
-                  <td class="feat"><b>Energy curve</b><span>How the lift behaves</span></td>
-                  <td class="mi"><span class="mark y">✓</span><span class="d">Gradual, 4–6 hrs</span></td>
-                  <td><span class="mark n">✗</span><span class="d">Spike then crash</span></td>
-                  <td><span class="mark y">✓</span><span class="d">Smooth</span></td>
-                  <td><span class="mark v">Varies</span><span class="d">Follows the base</span></td>
-                </tr>
-                <tr>
-                  <td class="feat"><b>Theobromine</b><span>Widens and softens the lift</span></td>
-                  <td class="mi"><span class="mark y">✓</span><span class="d">Naturally present</span></td>
-                  <td><span class="mark n">✗</span><span class="d">Trace only</span></td>
-                  <td><span class="mark n">✗</span></td>
-                  <td><span class="mark n">✗</span></td>
-                </tr>
-                <tr>
-                  <td class="feat"><b>Antioxidants</b><span>Polyphenols &amp; saponins</span></td>
-                  <td class="mi"><span class="mark y">✓</span><span class="d">High</span></td>
-                  <td><span class="mark y">✓</span><span class="d">Moderate</span></td>
-                  <td><span class="mark y">✓</span><span class="d">Catechins</span></td>
-                  <td><span class="mark v">Varies</span></td>
-                </tr>
-                <tr>
-                  <td class="feat"><b>Vitamins &amp; minerals</b><span>Beyond the caffeine</span></td>
-                  <td class="mi"><span class="mark y">✓</span><span class="d">B vitamins, magnesium, potassium</span></td>
-                  <td><span class="mark n">✗</span><span class="d">Minimal</span></td>
-                  <td><span class="mark y">✓</span><span class="d">Some</span></td>
-                  <td><span class="mark n">✗</span><span class="d">Minimal</span></td>
-                </tr>
-                <tr>
-                  <td class="feat"><b>Jitters</b><span>Typical experience</span></td>
-                  <td class="mi"><span class="mark y">Rare</span></td>
-                  <td><span class="mark n">Common</span></td>
-                  <td><span class="mark y">Rare</span></td>
-                  <td><span class="mark v">Depends</span><span class="d">On the base</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
 
-          <p class="claims-note">
-            Caffeine figures are typical ranges and vary by leaf, roast and preparation.
-            These statements have not been evaluated by the Food and Drug Administration.
-            This product is not intended to diagnose, treat, cure or prevent any disease.
-          </p>
         </div>
       </div>
     </div>
@@ -753,47 +744,61 @@
   <!-- ============ 4. BETTER THAN COFFEE & THE ALTERNATIVES ============ -->
   <section class="block">
     <div class="wrapc">
-      <h2 class="act-title fx">Why Upgrade To<br/><span class="gold">The Mate Latte?</span></h2>
-      <p class="tagline-sub fx">Is That Even A Question?</p>
+      <h2 class="act-title fx">Not All Caffeine<br/><span class="gold">Is Created Equal</span></h2>
+      <p class="tagline-sub wide fx">Elevate Your Daily Ritual With Smooth, Clean Energy</p>
       <div class="cmp-wrap fx">
         <table class="cmp">
           <thead>
             <tr>
               <th></th>
-              <th class="mi-col">Mate Latte</th>
-              <th>Matcha</th>
+              <th class="mi-col">Yerba Mate</th>
               <th>Coffee</th>
+              <th>Matcha</th>
               <th>Mushroom<br/>Coffee</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td class="feat"><b>Smooth caffeine</b><span>No jitters or crash</span></td>
-              <td class="mi"><span class="mark y">✓</span><span class="d">100mg from yerba mate</span></td>
-              <td><span class="mark y">✓</span><span class="d">~70mg</span></td>
-              <td><span class="mark n">✗</span><span class="d">Spikes + crashes</span></td>
-              <td><span class="mark v">Varies</span><span class="d">Still coffee-based</span></td>
+              <td class="feat"><b>Caffeine</b><span>Per cup</span></td>
+              <td class="mi"><span class="mark y">~80mg</span></td>
+              <td><span class="mark v">~95mg</span></td>
+              <td><span class="mark v">~70mg</span></td>
+              <td><span class="mark v">Varies</span><span class="d">Coffee-based</span></td>
             </tr>
             <tr>
-              <td class="feat"><b>L-theanine</b><span>Calm focus, no anxiety</span></td>
-              <td class="mi"><span class="mark y">✓</span><span class="d">200mg added</span></td>
-              <td><span class="mark v">Trace</span><span class="d">~25mg natural</span></td>
-              <td><span class="mark n">✗</span></td>
-              <td><span class="mark n">✗</span><span class="d">Most brands omit</span></td>
+              <td class="feat"><b>Energy curve</b><span>How the lift behaves</span></td>
+              <td class="mi"><span class="mark y">✓</span><span class="d">Gradual, 4–6 hrs</span></td>
+              <td><span class="mark n">✗</span><span class="d">Spike then crash</span></td>
+              <td><span class="mark y">✓</span><span class="d">Smooth</span></td>
+              <td><span class="mark v">Varies</span><span class="d">Follows the base</span></td>
             </tr>
             <tr>
-              <td class="feat"><b>Lion's mane</b><span>Cognitive support</span></td>
-              <td class="mi"><span class="mark y">✓</span><span class="d">500mg clinical dose</span></td>
+              <td class="feat"><b>Theobromine</b><span>Widens and softens the lift</span></td>
+              <td class="mi"><span class="mark y">✓</span><span class="d">Naturally present</span></td>
+              <td><span class="mark n">✗</span><span class="d">Trace only</span></td>
               <td><span class="mark n">✗</span></td>
               <td><span class="mark n">✗</span></td>
-              <td><span class="mark y">✓</span><span class="d">Varies by brand</span></td>
             </tr>
             <tr>
-              <td class="feat"><b>Dairy-free latte</b><span>Just add water</span></td>
-              <td class="mi"><span class="mark y">✓</span><span class="d">Oat + coconut built in</span></td>
-              <td><span class="mark n">✗</span><span class="d">Needs milk/creamer</span></td>
-              <td><span class="mark n">✗</span><span class="d">Needs creamer</span></td>
-              <td><span class="mark n">✗</span><span class="d">Needs creamer</span></td>
+              <td class="feat"><b>Antioxidants</b><span>Polyphenols &amp; saponins</span></td>
+              <td class="mi"><span class="mark y">✓</span><span class="d">High</span></td>
+              <td><span class="mark y">✓</span><span class="d">Moderate</span></td>
+              <td><span class="mark y">✓</span><span class="d">Catechins</span></td>
+              <td><span class="mark v">Varies</span></td>
+            </tr>
+            <tr>
+              <td class="feat"><b>Vitamins &amp; minerals</b><span>Beyond the caffeine</span></td>
+              <td class="mi"><span class="mark y">✓</span><span class="d">B vitamins, magnesium, potassium</span></td>
+              <td><span class="mark n">✗</span><span class="d">Minimal</span></td>
+              <td><span class="mark y">✓</span><span class="d">Some</span></td>
+              <td><span class="mark n">✗</span><span class="d">Minimal</span></td>
+            </tr>
+            <tr>
+              <td class="feat"><b>Jitters</b><span>Typical experience</span></td>
+              <td class="mi"><span class="mark y">Rare</span></td>
+              <td><span class="mark n">Common</span></td>
+              <td><span class="mark y">Rare</span></td>
+              <td><span class="mark v">Depends</span><span class="d">On the base</span></td>
             </tr>
           </tbody>
         </table>
@@ -801,35 +806,97 @@
     </div>
   </section>
 
-  <!-- ============ 5. HOW MILONGA INNOVATES ============ -->
+  <!-- ============ 5. WHERE TRADITION MEETS INNOVATION ============
+       Ingredient list and the scoop/whisk/enjoy path on the left, the scoop
+       shot on the right with the per-serving badge floated in the gap
+       between the bag and the hand.
+       ============================================================ -->
   <section class="block">
-    <div class="wrapc">
-      <h2 class="act-title fx">Three Main <span class="gold">Ingredients</span></h2>
-      <p class="tagline-sub fx">One Unique Experience</p>
+    <div class="wrapc" style="width:min(1120px, 100% - 40px)">
+      <h2 class="act-title fx">Where Tradition<br/><span class="gold">Meets Innovation</span></h2>
+      <p class="tagline-sub wide fx">Yerba Mate Reimagined As A Creamy, Functional Latte For Your Daily Ritual</p>
+    </div>
 
-      <div class="glass fx" style="margin-top:26px">
-        <div class="edu-copy">
-          <p>Traditional mate is brewed loose in a gourd and shared through a metal straw. Wonderful — but bitter, green, and not something you make on a Tuesday before work.</p>
-          <p><b>So we rebuilt it as a latte.</b> Creamy vanilla, oat and coconut already in the blend, dissolved in 30 seconds. Then we added the two things mate alone doesn't give you.</p>
+    <div class="wrapw" style="margin-top:34px">
+      <div class="ing-split">
+        <div class="ing-copy fx">
+          <div class="ing-list" style="margin-top:0">
+            <div class="ing-row">
+              <span class="ing-big">100mg Yerba Mate</span>
+              <span class="ing-sub">Clean, sustained energy &amp; rich antioxidants.</span>
+            </div>
+            <div class="ing-row">
+              <span class="ing-big">500mg Lion's Mane</span>
+              <span class="ing-sub">Focus and memory.</span>
+            </div>
+            <div class="ing-row">
+              <span class="ing-big">200mg L-Theanine</span>
+              <span class="ing-sub">Balanced calm.</span>
+            </div>
+          </div>
+
+          <div class="steps" role="img" aria-label="Scoop, whisk, enjoy — hot or iced">
+            <div class="step-i">
+              <svg viewBox="0 0 40 40" fill="none" stroke="#ecc96f" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 26 a8 6 0 0 0 16 0 a8 6 0 0 0 -16 0 z"/>
+                <path d="M22 22 L33 8"/>
+                <path d="M11 24 q5 -3 10 0" opacity=".6"/>
+              </svg>
+              <span class="lbl">Scoop</span>
+            </div>
+            <span class="step-arrow">&rarr;</span>
+            <div class="step-i">
+              <svg viewBox="0 0 40 40" fill="none" stroke="#ecc96f" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 4 v10"/>
+                <path d="M20 14 c-6 3 -8 9 -8 14 a8 8 0 0 0 16 0 c0 -5 -2 -11 -8 -14 z"/>
+                <path d="M16 18 c-2 4 -2 12 0 16 M24 18 c2 4 2 12 0 16 M20 16 v20"/>
+              </svg>
+              <span class="lbl">Whisk</span>
+            </div>
+            <span class="step-arrow">&rarr;</span>
+            <div class="step-i">
+              <svg viewBox="0 0 40 40" fill="none" stroke="#ecc96f" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 16 h18 v8 a9 9 0 0 1 -18 0 z"/>
+                <path d="M27 18 h3 a4 4 0 0 1 0 8 h-3"/>
+                <path d="M14 10 c0 2 1.5 2.2 1.5 4 M20 8 c0 2 1.5 2.2 1.5 4"/>
+                <path d="M33 6 l1.2 2.6 L37 10 l-2.8 1.4 L33 14 l-1.2 -2.6 L29 10 l2.8 -1.4 z" stroke-width="1.4"/>
+              </svg>
+              <span class="lbl">Enjoy</span>
+            </div>
+            <div class="branch">
+              <div class="branch-row">
+                <span class="branch-arrow">&#8599;</span>
+                <div class="step-i mini">
+                  <svg viewBox="0 0 40 40" fill="none" stroke="#ecc96f" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 17 h17 v10 a7 7 0 0 1 -7 7 h-3 a7 7 0 0 1 -7 -7 z"/>
+                    <path d="M27 19 h3 a4 4 0 0 1 0 8 h-3"/>
+                    <path d="M14 6 c0 2.4 2 3 2 5.4 M20 5 c0 2.4 2 3 2 5.4 M26 6 c0 2.4 2 3 2 5.4"/>
+                  </svg>
+                  <span class="lbl">Hot</span>
+                </div>
+              </div>
+              <div class="branch-row">
+                <span class="branch-arrow">&#8600;</span>
+                <div class="step-i mini">
+                  <svg viewBox="0 0 40 40" fill="none" stroke="#ecc96f" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 11 h16 l-2 22 a2 2 0 0 1 -2 1.8 h-8 a2 2 0 0 1 -2 -1.8 z"/>
+                    <path d="M12.6 19 h14.8"/>
+                    <path d="M16 23 l3 3 M23 23 l-3 3 M19.5 28 l2 2.4"/>
+                  </svg>
+                  <span class="lbl">Iced</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="steps-note">Ready in 30 seconds</p>
         </div>
 
-        <div class="ing-list">
-          <div class="ing-row">
-            <span class="ing-big">100mg Yerba Mate</span>
-            <span class="ing-sub">Clean, sustained energy &amp; rich antioxidants.</span>
+        <div class="side-media fx">
+          <img class="side-img" src="assets/hand-pour-web.png" alt="Scooping Milonga Mate Latte powder into a glass" />
+          <div class="scoop-badge">
+            <span class="sb-big">90 CAL, 3G SUGAR</span>
+            <span class="sb-sm">PER SERVING</span>
           </div>
-          <div class="ing-row">
-            <span class="ing-big">500mg Lion's Mane</span>
-            <span class="ing-sub">Focus and memory — a full dose, not a dusting.</span>
-          </div>
-          <div class="ing-row">
-            <span class="ing-big">200mg L-Theanine</span>
-            <span class="ing-sub">Balanced calm. This is what takes the edge off caffeine.</span>
-          </div>
-        </div>
-
-        <div class="edu-copy" style="margin-top:26px">
-          <p class="pull">Mate for the energy. Lion's mane for the clarity. L-theanine for the calm.</p>
         </div>
       </div>
     </div>
