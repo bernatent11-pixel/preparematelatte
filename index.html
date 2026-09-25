@@ -1187,17 +1187,17 @@
         <div class="buy-options">
           <div class="opt">
             <div class="opt-name">One-Time</div>
-            <div class="opt-price">$29.99</div>
+            <div class="opt-price">$34.99</div>
             <div class="opt-meta">15 servings</div>
-            <div class="opt-anchor">$2.00 per serving</div>
+            <div class="opt-anchor">$2.33 per serving</div>
             <a class="btn buy-btn" href="#" data-checkout="onetime">Order Now</a>
           </div>
           <div class="opt featured">
             <span class="opt-badge">Save 15%</span>
             <div class="opt-name">Subscribe &amp; Save</div>
-            <div class="opt-price">$25.49<span class="permo">/mo</span></div>
+            <div class="opt-price">$29.74<span class="permo">/mo</span></div>
             <div class="opt-meta">15 servings monthly · cancel anytime</div>
-            <div class="opt-anchor">$1.70 per serving</div>
+            <div class="opt-anchor">$1.98 per serving</div>
             <a class="btn buy-btn" href="#" data-checkout="subscribe">Subscribe &amp; Save</a>
           </div>
         </div>
@@ -1418,9 +1418,9 @@
     const PRODUCT_NAME = "Milonga Mate Latte";
 
     const PRICING = {
-      base: 29.99,
-      sub: 0.15,
-      qty: { 1: 0, 2: 0.10, 3: 0.15 }
+      base: 34.99,                     // matches the 1 BAG variant in Shopify
+      sub: 0.15,                       // Appstle "Mate Mornings Club" is 15%
+      qty: { 1: 0, 2: 0.10, 3: 0.15 }  // 2 BAGS -10%, 3 BAGS -15%
     };
     const fmt = n => "$" + n.toFixed(2);
     const round2 = n => Math.round(n * 100) / 100;
