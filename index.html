@@ -1182,7 +1182,7 @@
         <div class="qty-row" role="group" aria-label="Quantity">
           <button class="qty active" type="button" data-qty="1">Buy 1</button>
           <button class="qty" type="button" data-qty="2">Buy 2 &middot; Save 10%</button>
-          <button class="qty" type="button" data-qty="3">Buy 3 &middot; Save 15%</button>
+          <button class="qty" type="button" data-qty="4">Buy 4 &middot; Save 15%</button>
         </div>
         <div class="buy-options">
           <div class="opt">
@@ -1193,11 +1193,11 @@
             <a class="btn buy-btn" href="#" data-checkout="onetime">Order Now</a>
           </div>
           <div class="opt featured">
-            <span class="opt-badge">Save 15%</span>
+            <span class="opt-badge">Save 30%</span>
             <div class="opt-name">Subscribe &amp; Save</div>
-            <div class="opt-price">$29.74<span class="permo">/mo</span></div>
+            <div class="opt-price">$24.49<span class="permo">/mo</span></div>
             <div class="opt-meta">15 servings monthly · cancel anytime</div>
-            <div class="opt-anchor">$1.98 per serving</div>
+            <div class="opt-anchor">$1.63 per serving</div>
             <a class="btn buy-btn" href="#" data-checkout="subscribe">Subscribe &amp; Save</a>
           </div>
         </div>
@@ -1414,20 +1414,24 @@
     const STOREFRONT_TOKEN = "";          // ← paste the Storefront API access token here
     const API_VERSION = "2025-01";
     const SELLING_PLAN = "8837562678";    // Appstle "Mate Mornings Club" — monthly, 15% off
-    const VARIANTS = { 1: "54302750212406", 2: "54302750245174", 3: "54302750277942" };
+    const VARIANTS = { 1: "54302750212406", 2: "54302750245174", 4: "54302750277942" };
     const PRODUCT_NAME = "Milonga Mate Latte";
 
+    /* These are the ACTUAL Shopify variant prices, not percentages applied to
+       a base, because the two disagree: 4 x 34.99 less 15% rounds to 118.97
+       but the variant is 118.96. Quoting a computed price would put the page
+       a cent above the checkout. If a variant price changes in Shopify,
+       change it here as well - nothing syncs this automatically. */
     const PRICING = {
-      base: 34.99,                     // matches the 1 BAG variant in Shopify
-      sub: 0.15,                       // Appstle "Mate Mornings Club" is 15%
-      qty: { 1: 0, 2: 0.10, 3: 0.15 }  // 2 BAGS -10%, 3 BAGS -15%
+      list:  34.99,                                  // per-bag list, for the struck-through anchor
+      sub:   0.30,                                   // Appstle "Mate Mornings Club"
+      price: { 1: 34.99, 2: 62.98, 4: 118.96 }       // 1 BAG / 2 BAGS -10% / 4 BAGS -15%
     };
     const fmt = n => "$" + n.toFixed(2);
     const round2 = n => Math.round(n * 100) / 100;
 
     function priceForItem(kind, q) {
-      const qd = PRICING.qty[q] || 0;
-      const unit = round2(PRICING.base * q * (1 - qd));
+      const unit = PRICING.price[q];
       return kind === "subscribe" ? round2(unit * (1 - PRICING.sub)) : unit;
     }
 
@@ -1526,9 +1530,8 @@
     }
 
     function renderCard(card, q) {
-      const qd = PRICING.qty[q] || 0;
-      const gross = PRICING.base * q;
-      const unit  = round2(gross * (1 - qd));
+      const gross = round2(PRICING.list * q);   // undiscounted, for the anchor
+      const unit  = PRICING.price[q];           // exact Shopify variant price
       card.querySelectorAll(".opt").forEach(opt => {
         const isSub = opt.classList.contains("featured");
         const price = isSub ? round2(unit * (1 - PRICING.sub)) : unit;
@@ -1536,7 +1539,7 @@
         const metaEl   = opt.querySelector(".opt-meta");
         const anchorEl = opt.querySelector(".opt-anchor");
         const wasVal = isSub ? unit : gross;
-        const crossed = isSub || qd > 0;
+        const crossed = isSub || unit < gross - 0.005;
         priceEl.innerHTML =
           (crossed ? `<span class="was">${fmt(wasVal)}</span>` : "") +
           fmt(price) + (isSub ? `<span class="permo">/mo</span>` : "");
