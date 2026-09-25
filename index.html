@@ -1566,24 +1566,42 @@
       renderCard(card, 1);
     });
 
-    /* ---------- promo countdown → 15 September, store time (EDT) ---------- */
+    /* ---------- promo countdown → rolling 15-day cycle ----------
+       The deadline is recomputed every tick rather than fixed, so when a
+       window closes the clock rolls straight on to the next one without
+       anyone touching the page. Windows step in whole 15-day blocks from the
+       anchor, so every visitor sees the same deadline as everyone else
+       rather than a personal timer started by their own first visit.
+
+       To move the schedule, change ANCHOR (the end of the first window) or
+       CYCLE_DAYS. Note the anchor is pinned to -04:00, so after the November
+       DST change the cutoff lands an hour later in local store time. */
     (function () {
       const clocks = Array.from(document.querySelectorAll(".pt-clock")).map(clock => ({
         d: clock.querySelector("[data-d]"), h: clock.querySelector("[data-h]"),
         m: clock.querySelector("[data-m]"), s: clock.querySelector("[data-s]")
       }));
       if (!clocks.length) return;
-      const target = new Date("2026-09-15T23:59:59-04:00").getTime();
+
+      const CYCLE_DAYS = 15;
+      const ANCHOR = new Date("2026-10-10T23:59:59-04:00").getTime();  // end of the first window
+      const CYCLE  = CYCLE_DAYS * 86400000;
+
+      function deadline(now) {
+        if (now < ANCHOR) return ANCHOR;
+        return ANCHOR + Math.ceil((now - ANCHOR) / CYCLE) * CYCLE;
+      }
+
       const pad = n => String(n).padStart(2, "0");
       function tick() {
-        let diff = target - Date.now();
+        const now = Date.now();
+        let diff = deadline(now) - now;
         if (diff < 0) diff = 0;
         const d = pad(Math.floor(diff / 86400000));
         const h = pad(Math.floor(diff % 86400000 / 3600000));
         const m = pad(Math.floor(diff % 3600000 / 60000));
         const s = pad(Math.floor(diff % 60000 / 1000));
         clocks.forEach(el => { el.d.textContent = d; el.h.textContent = h; el.m.textContent = m; el.s.textContent = s; });
-        if (diff === 0 && window.__promoTimer) clearInterval(window.__promoTimer);
       }
       tick();
       window.__promoTimer = setInterval(tick, 1000);
