@@ -233,8 +233,14 @@
     /* yerba mate section: copy + benefits + table on the left, product right */
     .mate-split {
       display: grid; grid-template-columns: 0.86fr 1.14fr;
-      gap: clamp(20px, 3vw, 40px); align-items: center; text-align: left;
+      grid-template-areas: "copy img" "bene img";
+      gap: clamp(18px, 2.4vw, 34px) clamp(20px, 3vw, 40px);
+      align-items: center; text-align: left;
     }
+    .mate-copy { grid-area: copy; }
+    .mate-aside { grid-area: img; }
+    .mate-benefits { grid-area: bene; }
+    .mate-benefits .mini-head { margin-top: 0; }
     /* right column: the product shot runs the full column width so it carries
        the same visual weight as the copy, with the table stacked under it */
     .mate-aside { display: grid; gap: clamp(14px, 2vw, 22px); }
@@ -586,49 +592,56 @@
     .copy-sm { color: rgba(247,239,224,0.4); font-size: 13px; }
 
     /* ================= RESPONSIVE =================
-       Elevate and the ingredients section stay SIDE BY SIDE at every width,
-       including phones - image left / text right for Elevate, text left /
-       image right for the ingredients. Only their proportions and type
-       scale down. Everything else stacks at 900px.
+       Below 900px every split becomes one centred column with the product
+       shot on top, matching how the sales page reads on a phone.
        ============================================== */
 
-    /* laptops and half-screen windows */
+    /* reviews inset from the screen edges on desktop, full-bleed on mobile */
     @media (min-width: 768px) {
       .reviews { padding-inline: clamp(28px, 5vw, 96px); }
     }
 
+    /* laptops and half-screen windows */
     @media (max-width: 1024px) {
       .mate-aside .side-img { width: 100%; margin-right: 0; }
       .ing-split .side-img { width: calc(100% + 8vw); margin-right: -8vw; }
-      .mate-split { grid-template-columns: 1fr 1fr; gap: 26px; }
       .ing-copy .act-title { font-size: clamp(24px, 3.6vw, 34px); }
       .steps { gap: 9px; }
       .step-i svg { width: 40px; height: 40px; }
       .scoop-badge { padding: 11px 20px; }
     }
 
+    /* ===== one column, centred, image first ===== */
     @media (max-width: 900px) {
       .vids { grid-template-columns: 1fr; }
       .vid-media { aspect-ratio: 4 / 5; }
 
-      /* stacks; the two side-by-side sections below deliberately do not */
-      .mate-split { grid-template-columns: 1fr; gap: 26px; }
-      .mate-aside .side-img { width: min(100%, 480px); margin: 0 auto; }
+      /* Elevate: hero title above, then the shot big, then the copy */
+      .split { grid-template-columns: 1fr; gap: 26px; padding: 0 20px; text-align: center; }
+      .split .side-media { order: -1; }
+      .split .hero-benefits { margin-left: 0 !important; }
+      .split .side-img { width: min(100%, 520px); margin: 0 auto; }
+      .sense { justify-items: center; gap: 12px; }
+      .sense li { justify-content: center; font-size: clamp(14px, 4.2vw, 21px); }
 
-      /* Elevate: image keeps the left, copy the right */
-      .split { grid-template-columns: 0.82fr 1.18fr; gap: 16px; padding: 0 20px; }
-      .split .hero-benefits { margin-left: 4px !important; }
-      .sense { gap: 10px; }
-      .sense li { font-size: clamp(12px, 3.1vw, 17px); gap: 9px; }
-      .sense li::before { width: 15px; height: 19px; }
+      /* Yerba: copy, then the bag, then the benefits */
+      .mate-split {
+        grid-template-columns: 1fr;
+        grid-template-areas: "copy" "img" "bene";
+        gap: 24px; text-align: center;
+      }
+      .mate-copy .edu-copy, .mate-copy .edu-copy p { text-align: center; }
+      .mate-aside .side-img { width: min(100%, 460px); margin: 0 auto; }
+      .benefits { justify-items: center; text-align: left; width: fit-content; margin-inline: auto; }
 
-      /* Ingredients: copy keeps the left, scoop shot the right */
-      .ing-split { grid-template-columns: 1.1fr 0.9fr; gap: 14px; }
-      .ing-split .side-img { width: calc(100% + 10vw); margin-right: -10vw; }
-      .steps { flex-wrap: wrap; row-gap: 12px; gap: 7px; }
-      .scoop-badge { padding: 8px 14px; top: 2%; left: 34%; }
-      .scoop-badge .sb-big { font-size: 11px; }
-      .scoop-badge .sb-sm { font-size: 8px; letter-spacing: 1.6px; margin-top: 2px; }
+      /* Ingredients: scoop shot first, then the centred copy */
+      .ing-split { grid-template-columns: 1fr; gap: 24px; text-align: center; }
+      .ing-split .side-media { order: -1; }
+      .ing-split .side-img { width: min(100%, 560px); margin: 0 auto; }
+      .ing-copy .tagline-sub { margin-inline: auto; }
+      .ing-list { width: fit-content; margin-inline: auto; text-align: left; }
+      .ing-copy .steps { justify-content: center; }
+      .scoop-badge { top: 4%; left: 42%; }
     }
 
     /* phones */
@@ -637,37 +650,29 @@
       nav.scrolled .logo .logo-img { height: 42px; }
       .hero { padding: 124px 0 26px; }
       .act-title { font-size: clamp(26px, 8vw, 34px); }
+      .ing-copy .act-title { font-size: clamp(26px, 8vw, 34px); }
       .block { padding: 40px 0; }
-      .tagline-sub { letter-spacing: 2.4px; }
+      .tagline-sub { letter-spacing: 2.6px; }
 
-      /* both side-by-side sections: narrower gutters, smaller type */
-      .split { grid-template-columns: 0.78fr 1.22fr; gap: 10px; padding: 0 14px; }
-      .split .hero-benefits { margin-left: 0 !important; }
-      .act-title.sm { font-size: clamp(17px, 5vw, 24px); }
-      .split .tagline-sub { font-size: 9px; letter-spacing: 1.6px; margin-top: 8px; }
-      .sense { gap: 8px; margin-top: 14px; }
-      .sense li { font-size: clamp(10.5px, 3.2vw, 14px); gap: 7px; letter-spacing: .6px; }
-      .sense li::before { width: 12px; height: 15px; }
-
-      .ing-split { grid-template-columns: 1.15fr 0.85fr; gap: 8px; }
-      .ing-copy .act-title { font-size: clamp(17px, 5vw, 24px); }
-      .ing-copy .tagline-sub { font-size: 9px; letter-spacing: 1.6px; }
-      .ing-copy .ing-list { margin-top: 18px; gap: 13px; }
-      .ing-big { font-size: clamp(12px, 3.6vw, 16px); gap: 8px; }
-      .ing-big::before { width: 14px; height: 17px; }
-      .ing-sub { font-size: 11px; padding-left: 22px; }
-      .steps { margin-top: 18px; gap: 5px; row-gap: 10px; }
-      .step-i svg { width: 27px; height: 27px; }
-      .step-i .lbl { font-size: 8px; letter-spacing: 1.2px; }
-      .step-i.mini svg { width: 21px; height: 21px; }
-      .step-arrow, .branch-arrow { font-size: 14px; padding-bottom: 14px; }
-      .branch-arrow { padding-bottom: 0; }
-      .steps-note { font-size: 9px; letter-spacing: 1.6px; }
-      .scoop-badge { padding: 6px 10px; top: 1%; left: 30%; }
-      .scoop-badge .sb-big { font-size: 8.5px; letter-spacing: 0; }
-      .scoop-badge .sb-sm { font-size: 6.5px; letter-spacing: 1px; margin-top: 1px; }
-
+      .sense li { font-size: clamp(14px, 4.4vw, 20px); gap: 10px; }
+      .sense li::before { width: 17px; height: 21px; }
+      .ing-big { font-size: clamp(15px, 4.4vw, 19px); }
+      .ing-sub { font-size: 12.5px; padding-left: 33px; }
       .benefits { grid-template-columns: 1fr; }
+
+      /* the scoop→whisk→enjoy path stays on ONE line at every phone width */
+      .steps { flex-wrap: nowrap; gap: clamp(3px, 1.4vw, 7px); margin-top: 22px; }
+      .step-i svg { width: clamp(24px, 7.4vw, 30px); height: clamp(24px, 7.4vw, 30px); }
+      .step-i .lbl { font-size: clamp(7px, 2.1vw, 8.5px); letter-spacing: 1px; }
+      .step-i.mini svg { width: clamp(18px, 5.4vw, 22px); height: clamp(18px, 5.4vw, 22px); }
+      .step-arrow { font-size: clamp(11px, 3.4vw, 15px); padding-bottom: 16px; }
+      .branch { gap: 8px; }
+      .branch-arrow { font-size: clamp(11px, 3.2vw, 14px); padding-bottom: 0; }
+      .steps-note { font-size: 9.5px; letter-spacing: 2px; }
+
+      .scoop-badge { padding: 8px 14px; top: 3%; left: 40%; }
+      .scoop-badge .sb-big { font-size: 11px; }
+      .scoop-badge .sb-sm { font-size: 8px; letter-spacing: 1.6px; }
 
       /* table: drop the row captions and tighten, but keep every column */
       .cmp td.feat span { display: none; }
@@ -825,6 +830,16 @@
             <p>Mate is more than a tea… it’s a ritual of slowing down, being present, and enjoying it as a moment to reset or share it with others, one sip and conversation at a time. In a world that’s always rushing, mate reminds you to slow down, share the moment, and enjoy it.</p>
           </div>
 
+        </div>
+
+        <!-- sits between the copy and the benefits once the grid stacks -->
+        <div class="mate-aside fx">
+          <div class="side-media">
+            <img class="side-img" src="assets/yerba-bag.png" alt="Milonga loose leaf yerba mate pouring from the bag" />
+          </div>
+        </div>
+
+        <div class="mate-benefits fx">
           <h3 class="mini-head">Benefits Of Yerba Mate Tea</h3>
           <ul class="benefits">
             <li>Rich in antioxidants and nutrients</li>
@@ -836,15 +851,6 @@
             <li>Boosts the immune system</li>
             <li>Mood enhancer</li>
           </ul>
-        </div>
-
-        <!-- right column: product shot, then the comparison beneath it -->
-        <div class="mate-aside fx">
-          <div class="side-media">
-            <img class="side-img" src="assets/yerba-bag.png" alt="Milonga loose leaf yerba mate pouring from the bag" />
-          </div>
-
-
         </div>
       </div>
     </div>
