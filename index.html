@@ -621,8 +621,14 @@
       .split .side-media { order: -1; }
       .split .hero-benefits { margin-left: 0 !important; }
       .split .side-img { width: min(100%, 520px); margin: 0 auto; }
-      .sense { justify-items: center; gap: 12px; }
-      .sense li { justify-content: center; font-size: clamp(14px, 4.2vw, 21px); }
+      /* Benefit lists: the BLOCK is centred, the items inside are not, so
+         every hand icon lands on one shared left edge instead of each row
+         being centred on its own width. */
+      .sense {
+        justify-items: start; gap: 12px; text-align: left;
+        width: fit-content; max-width: 100%; margin-inline: auto;
+      }
+      .sense li { justify-content: flex-start; font-size: clamp(14px, 4.2vw, 21px); }
 
       /* Yerba: copy, then the bag, then the benefits */
       .mate-split {
@@ -632,7 +638,13 @@
       }
       .mate-copy .edu-copy, .mate-copy .edu-copy p { text-align: center; }
       .mate-aside .side-img { width: min(100%, 460px); margin: 0 auto; }
-      .benefits { justify-items: center; text-align: left; width: fit-content; margin-inline: auto; }
+      .benefits {
+        /* two content-sized columns rather than auto-fit, so fit-content
+           cannot collapse the grid to a single narrow column */
+        grid-template-columns: repeat(2, auto);
+        justify-items: start; text-align: left;
+        width: fit-content; max-width: 100%; margin-inline: auto;
+      }
 
       /* Ingredients: scoop shot first, then the centred copy */
       .ing-split { grid-template-columns: 1fr; gap: 24px; text-align: center; }
